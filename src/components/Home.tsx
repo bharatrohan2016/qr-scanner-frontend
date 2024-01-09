@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, InputAdornment, TextField } from '@mui/material';
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 
-const Logo = styled.img`
+export const BackgroundContainer = styled(Box)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/mainbackground.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.7;
+`;
+
+
+
+export const Logo = styled.img`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,12 +32,13 @@ const Logo = styled.img`
     }
 `
 
-const HomePage = styled(Box)`
+export const HomePage = styled(Box)`
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
     min-height: 70vh;
+    margin-top: 10vh
 `;
 
 const SearchBox = styled(Box)`
@@ -31,32 +47,41 @@ const SearchBox = styled(Box)`
     align-items: center;
     flex-direction: column;
     height: 20vh;
-    border: 1px solid black;
     width: 80vw;
-    margin-top: 3%
 `
 
 const SearchB = styled(TextField)`
-    @media (max-width: 600px) {
-        width: 80%
+    && {
+        @media (max-width: 600px) {
+            width: 80%;
+        }
+
+        .MuiInputBase-root {
+            border-bottom: none;
+            border-radius: 8px 8px 8px 8px;
+        }
+
+        .Mui-focused {
+            border-color: none;
+        }
     }
 `
 
 const FarmerSection = styled(Box)`
     width: 80vw;
     min-height: 30vh;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 3%;
     @media (max-width: 600px) {
         min-height: 12vh
     }
 `
 
 const FarmerProfile = styled(Box)`
+    background-color: white;
+    opacity: 0.5;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -130,7 +155,7 @@ const ProfileContent = styled(Box)`
     }
 `
 
-const MainContent = styled(Box)`
+export const MainContent = styled(Box)`
     @media (max-width: 600px) {
         width: 80px;
         height: 10vh;
@@ -141,16 +166,35 @@ const MainContent = styled(Box)`
 `
 
 const Home = () => {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+        const isScrolled = window.scrollY > 0;
+        if (isScrolled !== scrolled) {
+            setScrolled(isScrolled);
+        }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+        window.removeEventListener('scroll', handleScroll);
+        };
+    }, [scrolled]);
   return (
     <Box sx={{overflowX: 'hidden'}}>
-        <Box sx={{display: 'flex', fontWeight: '800',justifyContent: 'start', alignItems: 'center', marginTop: '4vh', marginLeft: '2vw', fontSize: '30px', height: '10vh'}}>
-            <img src='/logo192.png' style={{ width: '40px', height: '40px', overflowX: 'hidden' }}/>
-            <p><i>BharatRohan</i></p>
+        <BackgroundContainer></BackgroundContainer>
+        <Box sx={{position: 'fixed', width: '100vw',backgroundColor: scrolled ? 'white' : 'transparent', transition: 'background-color 0.5s ease-in-out', zIndex: '100'}}>
+            <Box sx={{display: 'flex', fontWeight: '800',justifyContent: 'start', alignItems: 'center', marginTop: '4vh', marginLeft: '2vw', fontSize: '30px', height: '10vh'}}>
+                <img src='/BharatRohan_Logo-03.png' style={{ width: '500px', height: '500px', overflowX: 'hidden' }}/>
+                {/* <p><i>BharatRohan</i></p> */}
+            </Box>
         </Box>
         <HomePage>
-            <Logo src='/logo192.png' />
+            <Logo src='/Logo-BR.svg' />
             <SearchBox>
                 <SearchB 
+                    variant="filled"
                     sx={{ width: '50%', fontSize: '20px' }} 
                     type='text' 
                     label="Enter Serial No..."
