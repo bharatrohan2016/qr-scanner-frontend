@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Box, InputAdornment, TextField } from '@mui/material';
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
+import { getFarmers } from '../service/api';
 
 export const BackgroundContainer = styled(Box)`
   position: fixed;
@@ -86,7 +87,7 @@ const FarmerProfile = styled(Box)`
     justify-content: space-around;
     align-items: center;
     width: 75vw;
-    height: 20vh;
+    height: 135px;
     border: 1px solid black;
     margin-top: 3%;
     @media (max-width: 600px) {
@@ -156,6 +157,10 @@ const ProfileContent = styled(Box)`
 `
 
 export const MainContent = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
     @media (max-width: 600px) {
         width: 80px;
         height: 10vh;
@@ -165,8 +170,19 @@ export const MainContent = styled(Box)`
     }
 `
 
+interface Farmer {
+    firstname: string;
+    lastname: string;
+    state: string;
+    village: string;
+    totalLandArea: number;
+    dob: string
+  }
+  
+
 const Home = () => {
     const [scrolled, setScrolled] = useState(false);
+    const [response, setResponse] = useState<Farmer[] | undefined>();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -181,6 +197,21 @@ const Home = () => {
         window.removeEventListener('scroll', handleScroll);
         };
     }, [scrolled]);
+
+    useEffect(() => {
+        const random = () => getFarmers().then(function(result) {
+            console.log(result?.data);
+            setResponse(result?.data);
+        })
+        random();
+    }, [])
+
+    if (typeof response === 'undefined') {
+        return(
+            <h1>Loading...</h1>
+        )
+    }
+
   return (
     <Box sx={{overflowX: 'hidden'}}>
         <BackgroundContainer></BackgroundContainer>
@@ -208,45 +239,26 @@ const Home = () => {
                 />
             </SearchBox>
             <FarmerSection>
-                <FarmerProfile>
-                    <ProfBox sx={{height: '130px', width: '130px', border: '1px solid black'}}>
-                        <Images src='/logo192.png'/>
-                    </ProfBox>
-                    <ProfileContent sx={{height: '130px', width: '50vw', border: '1px solid black', display: 'flex', justifyContent: 'space-around'}}>
-                        <MainContent sx={{height: '130px', width: '20vw', border: '1px solid black'}}>
-                            Box 1
-                        </MainContent>
-                        <MainContent sx={{height: '130px', width: '20vw', border: '1px solid black'}}>
-                            Box 2
-                        </MainContent>
-                    </ProfileContent>
-                </FarmerProfile>
-                <FarmerProfile>
-                    <ProfBox sx={{height: '130px', width: '130px', border: '1px solid black'}}>
-                        <Images src='/logo192.png'/>
-                    </ProfBox>
-                    <ProfileContent sx={{height: '130px', width: '50vw', border: '1px solid black', display: 'flex', justifyContent: 'space-around'}}>
-                        <MainContent sx={{height: '130px', width: '20vw', border: '1px solid black'}}>
-                            Box 1
-                        </MainContent>
-                        <MainContent sx={{height: '130px', width: '20vw', border: '1px solid black'}}>
-                            Box 2
-                        </MainContent>
-                    </ProfileContent>
-                </FarmerProfile>
-                <FarmerProfile>
-                    <ProfBox sx={{height: '130px', width: '130px', border: '1px solid black'}}>
-                        <Images src='/logo192.png'/>
-                    </ProfBox>
-                    <ProfileContent sx={{height: '130px', width: '50vw', border: '1px solid black', display: 'flex', justifyContent: 'space-around'}}>
-                        <MainContent sx={{height: '130px', width: '20vw', border: '1px solid black'}}>
-                            Box 1
-                        </MainContent>
-                        <MainContent sx={{height: '130px', width: '20vw', border: '1px solid black'}}>
-                            Box 2
-                        </MainContent>
-                    </ProfileContent>
-                </FarmerProfile>
+                {
+                    response ? response.map((data, key) => (
+                        <FarmerProfile>
+                            <ProfBox sx={{height: '130px', width: '130px'}}>
+                                <Images src='/logo192.png'/>
+                            </ProfBox>
+                            <ProfileContent sx={{height: '130px', width: '50vw', display: 'flex', justifyContent: 'space-around'}}>
+                                <MainContent sx={{height: '130px', width: '20vw'}}>
+                                    <Box>Name: {data.firstname + ' ' + data.lastname}</Box>
+                                    <Box>State: {data.state}</Box>
+                                    <Box>Village: {data.village}</Box>
+                                </MainContent>
+                                <MainContent sx={{height: '130px', width: '20vw'}}>
+                                    <Box>Total Land: {data.totalLandArea}</Box>
+                                    <Box>Date of Birth: {data.dob}</Box>
+                                </MainContent>
+                            </ProfileContent>
+                        </FarmerProfile>
+                    )) : 'Loading...'
+                }
             </FarmerSection>
         </HomePage>
     </Box>
