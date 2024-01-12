@@ -10,3 +10,11 @@ export const getFarmers = async () => {
         
     }
 }
+
+export const getSingleFarmer =async (params:any) => {
+    try {
+        return await axios.get(`${URI}/api/farmer/get-farmer/${params}`)
+    } catch (error) {
+        console.log(error); 
+    }
+}

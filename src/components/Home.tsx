@@ -3,6 +3,7 @@ import { Box, InputAdornment, TextField } from '@mui/material';
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { getFarmers } from '../service/api';
+import { useNavigate } from 'react-router-dom';
 
 export const BackgroundContainer = styled(Box)`
   position: fixed;
@@ -39,7 +40,10 @@ export const HomePage = styled(Box)`
     align-items: center;
     flex-direction: column;
     min-height: 70vh;
-    margin-top: 10vh
+    margin-top: 10vh;
+    @media (max-width: 600px) {
+        margin-top: 15vh;
+    }
 `;
 
 const SearchBox = styled(Box)`
@@ -90,8 +94,14 @@ const FarmerProfile = styled(Box)`
     height: 135px;
     border: 1px solid black;
     margin-top: 3%;
+    &:hover {
+        opacity: 0.7;
+    }
     @media (max-width: 600px) {
-        height: 10vh;
+        height: 15vh;
+        &:active {
+            opacity: 0.7; /* Apply the hover effect on touch devices */
+        }
     }
 `
 
@@ -139,7 +149,7 @@ const FarmerDemo = [
 const ProfBox = styled(Box)`
     @media (max-width: 600px) {
         width: 40px;
-        height: 10vh;
+        min-height: 10vh;
         display: flex;
         justify-content: center;
         align-items: center
@@ -149,9 +159,10 @@ const ProfBox = styled(Box)`
 const ProfileContent = styled(Box)`
     @media (max-width: 600px) {
         width: 180px;
-        height: 10vh;
+        min-height: 20vh;
         display: flex;
-        justify-content: space-around;
+        flex-direction: column;
+        justify-content: center;
         align-items: center
     }
 `
@@ -159,14 +170,22 @@ const ProfileContent = styled(Box)`
 export const MainContent = styled(Box)`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: space-around;
     @media (max-width: 600px) {
-        width: 80px;
-        height: 10vh;
+        width: 160px;
         display: flex;
-        justify-content: center;
-        align-items: center
+        height: 7vh;
+        justify-content: start;
+        align-items: start;
+        font-size: 11px;
+        padding: 0;
+    }
+`;
+
+export const Navbar = styled(Box)`
+    @media (max-width: 600px) {
+        height: 10vh;
     }
 `
 
@@ -177,12 +196,25 @@ interface Farmer {
     village: string;
     totalLandArea: number;
     dob: string
-  }
+}
+
+export const capitalizeFirstLetter = (str:any) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export const hideWord = (str:any) => {
+    return str.charAt(0).toUpperCase() + 'X'.repeat(str.length - 1);
+}
   
 
 const Home = () => {
     const [scrolled, setScrolled] = useState(false);
     const [response, setResponse] = useState<Farmer[] | undefined>();
+    const navigate = useNavigate()
+
+    const clickToFarmer = (e:any) => {
+        navigate(`/farmerprofile/${e._id}`)
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -216,10 +248,10 @@ const Home = () => {
     <Box sx={{overflowX: 'hidden'}}>
         <BackgroundContainer></BackgroundContainer>
         <Box sx={{position: 'fixed', width: '100vw',backgroundColor: scrolled ? 'white' : 'transparent', transition: 'background-color 0.5s ease-in-out', zIndex: '100'}}>
-            <Box sx={{display: 'flex', fontWeight: '800',justifyContent: 'start', alignItems: 'center', marginTop: '4vh', marginLeft: '2vw', fontSize: '30px', height: '10vh'}}>
+            <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'start', alignItems: 'center', marginTop: '4vh', marginLeft: '2vw', fontSize: '30px', height: '10vh'}}>
                 <img src='/BharatRohan_Logo-03.png' style={{ width: '500px', height: '500px', overflowX: 'hidden' }}/>
                 {/* <p><i>BharatRohan</i></p> */}
-            </Box>
+            </Navbar>
         </Box>
         <HomePage>
             <Logo src='/Logo-BR.svg' />
@@ -228,7 +260,7 @@ const Home = () => {
                     variant="filled"
                     sx={{ width: '50%', fontSize: '20px' }} 
                     type='text' 
-                    label="Enter Serial No..."
+                    label="Enter Patch No..."
                     InputProps={{
                         endAdornment: (
                         <InputAdornment position="end">
@@ -241,15 +273,15 @@ const Home = () => {
             <FarmerSection>
                 {
                     response ? response.map((data, key) => (
-                        <FarmerProfile>
+                        <FarmerProfile key={key} onClick={() => {clickToFarmer(data)}}>
                             <ProfBox sx={{height: '130px', width: '130px'}}>
                                 <Images src='/logo192.png'/>
                             </ProfBox>
                             <ProfileContent sx={{height: '130px', width: '50vw', display: 'flex', justifyContent: 'space-around'}}>
                                 <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Name: {data.firstname + ' ' + data.lastname}</Box>
-                                    <Box>State: {data.state}</Box>
-                                    <Box>Village: {data.village}</Box>
+                                    <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
+                                    <Box>State: {capitalizeFirstLetter(data.state)}</Box>
+                                    <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
                                 </MainContent>
                                 <MainContent sx={{height: '130px', width: '20vw'}}>
                                     <Box>Total Land: {data.totalLandArea}</Box>
