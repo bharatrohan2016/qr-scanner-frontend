@@ -78,10 +78,10 @@ const FarmerProfile = () => {
   return (
     <Box sx={{overflowX: 'hidden'}}>
         <BackgroundContainer></BackgroundContainer>
-        <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'start', alignItems: 'center', marginTop: '4vh', marginLeft: '2vw', fontSize: '30px', height: '10vh'}}>
-          <img src='/BharatRohan_Logo-03.png' style={{ width: '500px', height: '500px', overflowX: 'hidden' }}/>
-          {/* <p><i>BharatRohan</i></p> */}
-        </Navbar> 
+          <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'center', alignItems: 'center', marginTop: '2vh', marginLeft: '2vw', fontSize: '30px', height: '10vh', color: 'white'}}>
+                <img src='/Logo-BR.svg' style={{ width: '50px', height: '50px', overflowX: 'hidden' }}/>
+                <p><i>BharatRohan®</i></p>
+          </Navbar>
         <HomePage>
           <Logo src='/logo192.png' />
           <MainProfileContent>

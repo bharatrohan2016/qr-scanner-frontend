@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { getFarmers } from '../service/api';
 import { useNavigate } from 'react-router-dom';
+import { ContentBoxOne, Main, VideoBox } from './Login';
 
 export const BackgroundContainer = styled(Box)`
   position: fixed;
@@ -39,7 +40,7 @@ export const HomePage = styled(Box)`
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-    min-height: 70vh;
+    min-height: 45vh;
     margin-top: 10vh;
     @media (max-width: 600px) {
         margin-top: 15vh;
@@ -52,7 +53,7 @@ const SearchBox = styled(Box)`
     align-items: center;
     flex-direction: column;
     height: 20vh;
-    width: 80vw;
+    width: 80%;
 `
 
 const SearchB = styled(TextField)`
@@ -73,7 +74,7 @@ const SearchB = styled(TextField)`
 `
 
 const FarmerSection = styled(Box)`
-    width: 80vw;
+    width: 100%;
     min-height: 30vh;
     display: flex;
     flex-direction: column;
@@ -90,7 +91,7 @@ const FarmerProfile = styled(Box)`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 75vw;
+    width: 100%;
     height: 135px;
     border: 1px solid black;
     margin-top: 3%;
@@ -243,22 +244,27 @@ const Home = () => {
             <h1>Loading...</h1>
         )
     }
+    
 
   return (
     <Box sx={{overflowX: 'hidden'}}>
         <BackgroundContainer></BackgroundContainer>
         <Box sx={{position: 'fixed', width: '100vw',backgroundColor: scrolled ? 'white' : 'transparent', transition: 'background-color 0.5s ease-in-out', zIndex: '100'}}>
-            <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'start', alignItems: 'center', marginTop: '4vh', marginLeft: '2vw', fontSize: '30px', height: '10vh'}}>
-                <img src='/BharatRohan_Logo-03.png' style={{ width: '500px', height: '500px', overflowX: 'hidden' }}/>
-                {/* <p><i>BharatRohan</i></p> */}
+            <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'center', alignItems: 'center', marginTop: '2vh', marginLeft: '2vw', fontSize: '30px', height: '10vh', color: scrolled ? 'black' : 'white'}}>
+                <img src='/Logo-BR.svg' style={{ width: '50px', height: '50px', overflowX: 'hidden' }}/>
+                <p><i>BharatRohan®</i></p>
             </Navbar>
         </Box>
-        <HomePage>
+        <Main>
+            <ContentBoxOne>
+                <VideoBox></VideoBox>
+            </ContentBoxOne>
+            <HomePage>
             <Logo src='/Logo-BR.svg' />
             <SearchBox>
                 <SearchB 
                     variant="filled"
-                    sx={{ width: '50%', fontSize: '20px' }} 
+                    sx={{ width: '80%', fontSize: '20px' }} 
                     type='text' 
                     label="Enter Patch No..."
                     InputProps={{
@@ -277,7 +283,7 @@ const Home = () => {
                             <ProfBox sx={{height: '130px', width: '130px'}}>
                                 <Images src='/logo192.png'/>
                             </ProfBox>
-                            <ProfileContent sx={{height: '130px', width: '50vw', display: 'flex', justifyContent: 'space-around'}}>
+                            <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
                                 <MainContent sx={{height: '130px', width: '20vw'}}>
                                     <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
                                     <Box>State: {capitalizeFirstLetter(data.state)}</Box>
@@ -293,6 +299,7 @@ const Home = () => {
                 }
             </FarmerSection>
         </HomePage>
+        </Main>
     </Box>
   )
 }
