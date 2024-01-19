@@ -1,7 +1,9 @@
 import { Box, Button, TextField } from '@mui/material'
 import React, { useState } from 'react';
-import { Navbar } from './Home'
+import { BackgroundContainer, Navbar } from './Home'
 import styled from '@emotion/styled'
+import { useNavigate } from 'react-router-dom';
+import { generateOtp, signIn } from '../service/api';
 
 export const Main = styled(Box)`
   width: 100vw;
@@ -10,7 +12,6 @@ export const Main = styled(Box)`
   justify-content: space-around;
   align-items: center;
   margin-top: 10vh;
-  border: 1px solid black;
   @media (max-width: 600px) {
     display: flex;
     flex-direction: column;
@@ -23,7 +24,6 @@ export const Main = styled(Box)`
 export const ContentBoxOne = styled(Box)`
   height: 80vh;
   width: 45vw;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,7 +36,6 @@ export const ContentBoxOne = styled(Box)`
 const Content = styled(Box)`
   height: 80vh;
   width: 45vw;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +48,6 @@ const Content = styled(Box)`
 export const VideoBox = styled(Box)`
   height: 40vh;
   width: 75vw;
-  border: 1px solid black;
 `;
 
 const FormBox = styled(Box)`
@@ -58,24 +56,68 @@ const FormBox = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  border: 1px solid black;
   align-items: center;
   @media (max-width: 600px) {
     height: 80vh;
     width: 80vw;
   }
-`
+`;
+
+const loginInitialValues = {
+  name: '',
+  email: '',
+  phone: '',
+  otp: ''
+}
 
 
 const Login = () => {
   const [showOtpForm, setShowOtpForm] = useState(true);
+  const [login, setLogin] = useState(loginInitialValues)
 
-  const handleGetOtpClick = () => {
+  const onValueChange = (e: any) => {
+    setLogin({...login, [e.target.name]: e.target.value});
+  }
+  const navigate = useNavigate(); 
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+  };
+
+
+  const handleGetOtpClick = async () => {
+    const getOtp = await generateOtp(login)
+    console.log(getOtp);
+    
     setShowOtpForm(false);
   };
 
+  const loginUser = async () => {
+    try {
+      console.log('Clicked');
+      
+      let response = await signIn(login);
+      console.log(response);
+      if (response.success === true) {
+        localStorage.setItem("userInfo", JSON.stringify(response))
+        localStorage.setItem("token", JSON.stringify(response.token))
+        localStorage.setItem("user", response.user)
+        localStorage.setItem("params", response.id)
+        navigate(`/home`)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Box sx={{overflowX: 'hidden'}}>
+      <BackgroundContainer></BackgroundContainer>
       <Box sx={{position: 'fixed', width: '100vw',backgroundColor: 'white', transition: 'background-color 0.5s ease-in-out', zIndex: '100'}}>
           <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'center', alignItems: 'center', marginTop: '2vh', marginLeft: '2vw', fontSize: '30px', height: '10vh', color: 'black'}}>
               <img src='/Logo-BR.svg' style={{ width: '50px', height: '50px', overflowX: 'hidden' }}/>
@@ -87,43 +129,51 @@ const Login = () => {
           <VideoBox></VideoBox>
         </ContentBoxOne>
         <Content>
-          <FormBox component="form">
-            <TextField
-              variant="filled"
-              sx={{ width: '80%', fontSize: '20px' }} 
-              type='text' 
-              label="Name *"
-            />
-            <TextField
-              variant="filled"
-              sx={{ width: '80%', fontSize: '20px' }} 
-              type='text' 
-              label="Email"
-            />
-            <TextField
-              variant="filled"
-              sx={{ width: '80%', fontSize: '20px' }} 
-              type='text' 
-              label="Phone *"
-            />
-            {!showOtpForm ? (
-              <>
-                <TextField
+          {!showOtpForm ? (
+            <FormBox component="form" onSubmit={handleSubmit}>
+              <TextField
                   variant="filled"
                   sx={{ width: '80%', fontSize: '20px' }}
                   type="text"
                   label="Enter Otp"
+                  name='otp'
+                  onChange={(e) => onValueChange(e)}
                 />
-                <Button>
+                <Button sx={{backgroundColor: 'blue', color: 'white'}} onClick={loginUser}>
                   Login
                 </Button>
-              </>
-              ) : (
-                <Button onClick={handleGetOtpClick}>
+            </FormBox>
+          ) : (
+            <FormBox component="form" onSubmit={handleSubmit}>
+              <TextField
+                variant="filled"
+                sx={{ width: '80%', fontSize: '20px' }} 
+                type='text' 
+                label="Name *"
+                name='name'
+                onChange={(e) => onValueChange(e)}
+              />
+              <TextField
+                variant="filled"
+                sx={{ width: '80%', fontSize: '20px' }} 
+                type='text' 
+                label="Email"
+                name='email'
+                onChange={(e) => onValueChange(e)}
+              />
+              <TextField
+                variant="filled"
+                sx={{ width: '80%', fontSize: '20px' }} 
+                type='text' 
+                label="Phone *"
+                name='phone'
+                onChange={(e) => onValueChange(e)}
+              />
+              <Button onClick={handleGetOtpClick} sx={{backgroundColor: 'blue', color: 'white', opacity: '0.5'}}>
                   Get Otp
-                </Button>
-              )}
-          </FormBox>
+              </Button>
+            </FormBox>
+          )}
         </Content>
       </Main>
     </Box>

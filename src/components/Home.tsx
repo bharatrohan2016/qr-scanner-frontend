@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Box, InputAdornment, TextField } from '@mui/material';
+import { Box, Button, InputAdornment, TextField } from '@mui/material';
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { getFarmers } from '../service/api';
 import { useNavigate } from 'react-router-dom';
 import { ContentBoxOne, Main, VideoBox } from './Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export const BackgroundContainer = styled(Box)`
   position: fixed;
@@ -93,7 +94,6 @@ const FarmerProfile = styled(Box)`
     align-items: center;
     width: 100%;
     height: 135px;
-    border: 1px solid black;
     margin-top: 3%;
     &:hover {
         opacity: 0.7;
@@ -212,6 +212,7 @@ const Home = () => {
     const [scrolled, setScrolled] = useState(false);
     const [response, setResponse] = useState<Farmer[] | undefined>();
     const navigate = useNavigate()
+    const userInfo = localStorage.getItem("userInfo");
 
     const clickToFarmer = (e:any) => {
         navigate(`/farmerprofile/${e._id}`)
@@ -250,9 +251,19 @@ const Home = () => {
     <Box sx={{overflowX: 'hidden'}}>
         <BackgroundContainer></BackgroundContainer>
         <Box sx={{position: 'fixed', width: '100vw',backgroundColor: scrolled ? 'white' : 'transparent', transition: 'background-color 0.5s ease-in-out', zIndex: '100'}}>
-            <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'center', alignItems: 'center', marginTop: '2vh', marginLeft: '2vw', fontSize: '30px', height: '10vh', color: scrolled ? 'black' : 'white'}}>
-                <img src='/Logo-BR.svg' style={{ width: '50px', height: '50px', overflowX: 'hidden' }}/>
-                <p><i>BharatRohan®</i></p>
+            <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'space-between', alignItems: 'center', marginTop: '2vh', marginLeft: '2vw', fontSize: '30px', height: '10vh', color: scrolled ? 'black' : 'white'}}>
+                <Box></Box>
+                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <img src='/Logo-BR.svg' style={{ width: '50px', height: '50px', overflowX: 'hidden' }}/>
+                    <p><i>BharatRohan®</i></p>
+                </Box>
+
+                <Button onClick={() => {
+                    localStorage.clear();
+                    navigate('/')
+                }}>
+                    <LogoutIcon sx={{color: 'black'}}/>
+                </Button>
             </Navbar>
         </Box>
         <Main>
