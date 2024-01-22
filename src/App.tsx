@@ -4,6 +4,9 @@ import Home from "./components/Home";
 import FarmerProfile from "./components/FarmerProfile";
 import Login from "./components/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
@@ -15,6 +18,7 @@ function App() {
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </div>
   );
 }

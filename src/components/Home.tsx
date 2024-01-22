@@ -4,21 +4,36 @@ import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { getFarmers } from '../service/api';
 import { useNavigate } from 'react-router-dom';
-import { ContentBoxOne, Main, VideoBox } from './Login';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { BackgroundContainer, ContentBoxOne, Main, VideoBox } from './Login';
+import { toast } from 'react-toastify';
+import NavBar from './NavBar';
 
-export const BackgroundContainer = styled(Box)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/mainbackground.jpg');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-  opacity: 0.7;
-`;
+// const BackgroundContainer = styled(Box)`
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background: linear-gradient(45deg, #ff8a00, #4caf50);
+//   background-size: 400% 400%;
+//   animation: gradientAnimation 10s infinite;
+
+//   @keyframes gradientAnimation {
+//     0% {
+//       background-position: 0% 50%;
+//     }
+//     50% {
+//       background-position: 100% 50%;
+//     }
+//     100% {
+//       background-position: 0% 50%;
+//     }
+//   }
+//   background-size: cover;
+//   background-position: center;
+//   z-index: -1;
+//   opacity: 0.7;
+// `;
 
 
 
@@ -34,7 +49,13 @@ export const Logo = styled.img`
         height: 100px;
         overflowX: 'hidden'
     }
-`
+`;
+
+export const Navbar = styled(Box)`
+    @media (max-width: 600px) {
+        height: 10vh;
+    }
+`;
 
 export const HomePage = styled(Box)`
     display: flex;
@@ -43,8 +64,10 @@ export const HomePage = styled(Box)`
     flex-direction: column;
     min-height: 45vh;
     margin-top: 10vh;
+    width: 48vw; 
     @media (max-width: 600px) {
         margin-top: 15vh;
+        width: 100%;
     }
 `;
 
@@ -87,8 +110,7 @@ const FarmerSection = styled(Box)`
 `
 
 const FarmerProfile = styled(Box)`
-    background-color: white;
-    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.5);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -184,11 +206,8 @@ export const MainContent = styled(Box)`
     }
 `;
 
-export const Navbar = styled(Box)`
-    @media (max-width: 600px) {
-        height: 10vh;
-    }
-`
+
+
 
 interface Farmer {
     firstname: string;
@@ -209,8 +228,8 @@ export const hideWord = (str:any) => {
   
 
 const Home = () => {
-    const [scrolled, setScrolled] = useState(false);
     const [response, setResponse] = useState<Farmer[] | undefined>();
+    const [searchTerm, setSearchTerm] = useState<string>("");
     const navigate = useNavigate()
     const userInfo = localStorage.getItem("userInfo");
 
@@ -218,27 +237,25 @@ const Home = () => {
         navigate(`/farmerprofile/${e._id}`)
     }
 
+    
     useEffect(() => {
-        const handleScroll = () => {
-        const isScrolled = window.scrollY > 0;
-        if (isScrolled !== scrolled) {
-            setScrolled(isScrolled);
-        }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-        window.removeEventListener('scroll', handleScroll);
-        };
-    }, [scrolled]);
-
-    useEffect(() => {
-        const random = () => getFarmers().then(function(result) {
-            console.log(result?.data);
+        const fetchData = async () => {
+          try {
+            const result = await getFarmers();
             setResponse(result?.data);
-        })
-        random();
-    }, [])
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+    
+        fetchData();
+      }, []);
+
+      const filteredFarmers = response?.filter(
+        (farmer) =>
+          farmer.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          farmer.lastname.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
     if (typeof response === 'undefined') {
         return(
@@ -250,46 +267,33 @@ const Home = () => {
   return (
     <Box sx={{overflowX: 'hidden'}}>
         <BackgroundContainer></BackgroundContainer>
-        <Box sx={{position: 'fixed', width: '100vw',backgroundColor: scrolled ? 'white' : 'transparent', transition: 'background-color 0.5s ease-in-out', zIndex: '100'}}>
-            <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'space-between', alignItems: 'center', marginTop: '2vh', marginLeft: '2vw', fontSize: '30px', height: '10vh', color: scrolled ? 'black' : 'white'}}>
-                <Box></Box>
-                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <img src='/Logo-BR.svg' style={{ width: '50px', height: '50px', overflowX: 'hidden' }}/>
-                    <p><i>BharatRohan®</i></p>
-                </Box>
-
-                <Button onClick={() => {
-                    localStorage.clear();
-                    navigate('/')
-                }}>
-                    <LogoutIcon sx={{color: 'black'}}/>
-                </Button>
-            </Navbar>
-        </Box>
+        <NavBar />
         <Main>
             <ContentBoxOne>
                 <VideoBox></VideoBox>
             </ContentBoxOne>
             <HomePage>
-            <Logo src='/Logo-BR.svg' />
-            <SearchBox>
-                <SearchB 
+                <Logo src='/Logo-BR.svg' />
+                <SearchBox>
+                <SearchB
                     variant="filled"
-                    sx={{ width: '80%', fontSize: '20px' }} 
-                    type='text' 
-                    label="Enter Patch No..."
+                    sx={{ width: "80%", fontSize: "20px" }}
+                    type="text"
+                    label="Enter Name..."
                     InputProps={{
-                        endAdornment: (
+                    endAdornment: (
                         <InputAdornment position="end">
-                            <SearchIcon sx={{ cursor: 'pointer' }}/>
+                        <SearchIcon sx={{ cursor: "pointer" }} />
                         </InputAdornment>
-                        ),
-                    }}    
+                    ),
+                    }}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
-            </SearchBox>
+                </SearchBox>
             <FarmerSection>
                 {
-                    response ? response.map((data, key) => (
+                    filteredFarmers ? filteredFarmers.map((data, key) => (
                         <FarmerProfile key={key} onClick={() => {clickToFarmer(data)}}>
                             <ProfBox sx={{height: '130px', width: '130px'}}>
                                 <Images src='/logo192.png'/>

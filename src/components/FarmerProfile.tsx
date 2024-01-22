@@ -1,10 +1,13 @@
 import { Box, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { BackgroundContainer, HomePage, Logo, Navbar, capitalizeFirstLetter } from './Home'
+import { HomePage, Logo, Navbar, capitalizeFirstLetter } from './Home'
 import styled from '@emotion/styled'
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSingleFarmer } from '../service/api';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { toast } from 'react-toastify';
+import NavBar from './NavBar';
+import { BackgroundContainer } from './Login';
 
 const MainProfileContent = styled(Box)`
   display: flex;
@@ -82,20 +85,7 @@ const FarmerProfile = () => {
   return (
     <Box sx={{overflowX: 'hidden'}}>
         <BackgroundContainer></BackgroundContainer>
-        <Navbar sx={{display: 'flex', fontWeight: '800',justifyContent: 'space-between', alignItems: 'center', marginTop: '2vh', marginLeft: '2vw', fontSize: '30px', height: '10vh', color: 'white'}}>
-                <Box></Box>
-                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <img src='/Logo-BR.svg' style={{ width: '50px', height: '50px', overflowX: 'hidden' }}/>
-                    <p><i>BharatRohan®</i></p>
-                </Box>
-
-                <Button onClick={() => {
-                    localStorage.clear();
-                    navigate('/')
-                }}>
-                    <LogoutIcon sx={{color: 'black'}}/>
-                </Button>
-            </Navbar>
+        <NavBar />
         <HomePage>
           <Logo src='/logo192.png' />
           <MainProfileContent>

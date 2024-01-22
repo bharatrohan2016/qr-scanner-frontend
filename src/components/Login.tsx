@@ -1,9 +1,36 @@
 import { Box, Button, TextField } from '@mui/material'
 import React, { useState } from 'react';
-import { BackgroundContainer, Navbar } from './Home'
+import { Navbar } from './Home'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom';
 import { generateOtp, signIn } from '../service/api';
+import { toast } from 'react-toastify';
+
+export const BackgroundContainer = styled(Box)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #ff8a00, #4caf50);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10s infinite;
+
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  background-position: center;
+  z-index: -1;
+  opacity: 0.7;
+`;
 
 export const Main = styled(Box)`
   width: 100vw;
@@ -51,12 +78,13 @@ export const VideoBox = styled(Box)`
 `;
 
 const FormBox = styled(Box)`
-  height: 50vh;
-  width: 30vw;
+  height: 60vh;
+  width: 35vw;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  background-color: rgba(255, 255, 255, 0.5);
   @media (max-width: 600px) {
     height: 80vh;
     width: 80vw;
@@ -67,7 +95,7 @@ const loginInitialValues = {
   name: '',
   email: '',
   phone: '',
-  otp: ''
+  otp: '',
 }
 
 
@@ -81,26 +109,35 @@ const Login = () => {
   const navigate = useNavigate(); 
 
   const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // event.preventDefault();
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
   };
 
 
   const handleGetOtpClick = async () => {
-    const getOtp = await generateOtp(login)
-    console.log(getOtp);
-    
-    setShowOtpForm(false);
+    if (login.name === '' || login.phone === '') {
+      toast.error('Please fill the required feilds!')
+    }else if (login.phone.length !== 10) {
+      toast.error('Wrong phone number!')
+    }
+    else{
+      setLogin({ ...login, otp: '' });
+      const getOtp = await generateOtp(login)
+      console.log(getOtp);
+      toast.success('Otp Sent!')
+      setShowOtpForm(false);
+    }
   };
 
   const loginUser = async () => {
     try {
-      console.log('Clicked');
-      
+      if (login.otp === '') {
+        return toast.error('Enter Otp!')
+      }
       let response = await signIn(login);
       console.log(response);
       if (response.success === true) {
@@ -108,9 +145,15 @@ const Login = () => {
         localStorage.setItem("token", JSON.stringify(response.token))
         localStorage.setItem("user", response.user)
         localStorage.setItem("params", response.id)
+        toast.success('Logged In!')
         navigate(`/home`)
+      }else if (response.success === false) {
+        toast.error('Oops Wrong Otp!')
+      }else {
+        toast.error('Oops Wrong Credentials!')
       }
     } catch (error) {
+      toast.error('Oops Wrong Otp!')
       console.log(error);
     }
   }
@@ -138,6 +181,8 @@ const Login = () => {
                   label="Enter Otp"
                   name='otp'
                   onChange={(e) => onValueChange(e)}
+                  required
+                  value={login.otp}
                 />
                 <Button sx={{backgroundColor: 'blue', color: 'white'}} onClick={loginUser}>
                   Login
@@ -152,6 +197,8 @@ const Login = () => {
                 label="Name *"
                 name='name'
                 onChange={(e) => onValueChange(e)}
+                required
+                value={login.name}
               />
               <TextField
                 variant="filled"
@@ -160,6 +207,7 @@ const Login = () => {
                 label="Email"
                 name='email'
                 onChange={(e) => onValueChange(e)}
+                value={login.email}
               />
               <TextField
                 variant="filled"
@@ -168,6 +216,8 @@ const Login = () => {
                 label="Phone *"
                 name='phone'
                 onChange={(e) => onValueChange(e)}
+                required
+                value={login.phone}
               />
               <Button onClick={handleGetOtpClick} sx={{backgroundColor: 'blue', color: 'white', opacity: '0.5'}}>
                   Get Otp
