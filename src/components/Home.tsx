@@ -57,7 +57,7 @@ export const Navbar = styled(Box)`
     }
 `;
 
-export const HomePage = styled(Box)`
+const HomePage = styled(Box)`
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -66,7 +66,6 @@ export const HomePage = styled(Box)`
     margin-top: 10vh;
     width: 48vw; 
     @media (max-width: 600px) {
-        margin-top: 15vh;
         width: 100%;
     }
 `;
@@ -105,7 +104,7 @@ const FarmerSection = styled(Box)`
     justify-content: center;
     align-items: center;
     @media (max-width: 600px) {
-        min-height: 12vh
+        min-height: 15vh
     }
 `
 
@@ -135,58 +134,25 @@ const Images = styled.img`
     }
 `
 
-const FarmerDemo = [
-    {
-        id: '1',
-        name: 'Sanchit Uppal',
-        place: 'Mahendra Park',
-        crops: ['paddy', 'wheat', 'maze', 'bazra'],
-        image: '/logo192.png'
-    },
-
-    {
-        id: '2',
-        name: 'Kishan Vaidya',
-        place: 'Adarsh Nagar',
-        crops: ['paddy', 'wheat', 'maze', 'bazra'],
-        image: '/logo192.png'
-    },
-
-    {
-        id: '3',
-        name: 'Mukesh Uppal',
-        place: 'GTB Park',
-        crops: ['paddy', 'wheat', 'maze', 'bazra'],
-        image: '/logo192.png'
-    },
-    {
-        id: '4',
-        name: 'Dhruv Uppal',
-        place: 'GTB Park',
-        crops: ['paddy', 'wheat', 'maze', 'bazra'],
-        image: '/logo192.png'
-    }
-]
-
 
 const ProfBox = styled(Box)`
     @media (max-width: 600px) {
         width: 40px;
-        min-height: 10vh;
+        height: 15vh;
         display: flex;
         justify-content: center;
-        align-items: center
+        align-items: center;
     }
 `
 
 const ProfileContent = styled(Box)`
     @media (max-width: 600px) {
         width: 180px;
-        min-height: 20vh;
+        height: 15vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center
+        align-items: center;
     }
 `
 
@@ -291,28 +257,28 @@ const Home = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 </SearchBox>
-            <FarmerSection>
-                {
-                    filteredFarmers ? filteredFarmers.map((data, key) => (
-                        <FarmerProfile key={key} onClick={() => {clickToFarmer(data)}}>
-                            <ProfBox sx={{height: '130px', width: '130px'}}>
-                                <Images src='/logo192.png'/>
-                            </ProfBox>
-                            <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
-                                <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
-                                    <Box>State: {capitalizeFirstLetter(data.state)}</Box>
-                                    <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
-                                </MainContent>
-                                <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Total Land: {data.totalLandArea}</Box>
-                                    <Box>Date of Birth: {data.dob}</Box>
-                                </MainContent>
-                            </ProfileContent>
-                        </FarmerProfile>
-                    )) : 'Loading...'
-                }
-            </FarmerSection>
+                <FarmerSection>
+                    {
+                        filteredFarmers ? filteredFarmers.map((data, key) => (
+                            <FarmerProfile key={key} onClick={() => {clickToFarmer(data)}}>
+                                <ProfBox sx={{height: '130px', width: '130px'}}>
+                                    <Images src='/logo192.png'/>
+                                </ProfBox>
+                                <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
+                                    <MainContent sx={{height: '130px', width: '20vw'}}>
+                                        <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
+                                        <Box>State: {capitalizeFirstLetter(data.state)}</Box>
+                                        <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
+                                    </MainContent>
+                                    <MainContent sx={{height: '130px', width: '20vw'}}>
+                                        <Box>Total Land: {data.totalLandArea}</Box>
+                                        <Box>Date of Birth: {data.dob}</Box>
+                                    </MainContent>
+                                </ProfileContent>
+                            </FarmerProfile>
+                        )) : 'Loading...'
+                    }
+                </FarmerSection>
         </HomePage>
         </Main>
     </Box>

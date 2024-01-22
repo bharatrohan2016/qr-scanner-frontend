@@ -34,7 +34,6 @@ export const BackgroundContainer = styled(Box)`
 
 export const Main = styled(Box)`
   width: 100vw;
-  height: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -45,7 +44,7 @@ export const Main = styled(Box)`
     justify-content: center;
     align-items: center
     margin-top: 10vh;
-  }
+  };
 `;
 
 export const ContentBoxOne = styled(Box)`
