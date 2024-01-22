@@ -218,9 +218,7 @@ const Home = () => {
       }, []);
 
       const filteredFarmers = response?.filter(
-        (farmer) =>
-          farmer.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          farmer.lastname.toLowerCase().includes(searchTerm.toLowerCase())
+        (farmer) => farmer.dob === searchTerm
       );
 
     if (typeof response === 'undefined') {
@@ -245,11 +243,11 @@ const Home = () => {
                     variant="filled"
                     sx={{ width: "80%", fontSize: "20px" }}
                     type="text"
-                    label="Enter Name..."
+                    label="Enter Patch No..."
                     InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">
-                        <SearchIcon sx={{ cursor: "pointer" }} />
+                        <SearchIcon sx={{ cursor: "pointer" }}/>
                         </InputAdornment>
                     ),
                     }}
