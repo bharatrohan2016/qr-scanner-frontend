@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { BackgroundContainer, ContentBoxOne, Main, VideoBox } from './Login';
 import { toast } from 'react-toastify';
 import NavBar from './NavBar';
+import YouTube from 'react-youtube';
 
 // const BackgroundContainer = styled(Box)`
 //   position: fixed;
@@ -172,7 +173,15 @@ export const MainContent = styled(Box)`
     }
 `;
 
-
+const opts = {
+    width: '100%',  // Set your desired width
+    height: '250', // Set your desired height
+    playerVars: {
+      autoplay: 1,   // Autoplay the video
+      controls: 0,   // Hide video controls
+      mute: 1,       // Mute the video
+    },
+};
 
 
 interface Farmer {
@@ -234,7 +243,12 @@ const Home = () => {
         <NavBar />
         <Main>
             <ContentBoxOne>
-                <VideoBox></VideoBox>
+                <VideoBox>
+                    <YouTube
+                        videoId="ZSHkJ7HO4pI"
+                        opts={opts}
+                    />
+                </VideoBox>
             </ContentBoxOne>
             <HomePage>
                 <Logo src='/Logo-BR.svg' />

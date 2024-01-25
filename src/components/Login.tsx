@@ -5,6 +5,7 @@ import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom';
 import { generateOtp, signIn } from '../service/api';
 import { toast } from 'react-toastify';
+import YouTube from 'react-youtube';
 
 export const BackgroundContainer = styled(Box)`
   position: fixed;
@@ -72,8 +73,11 @@ const Content = styled(Box)`
 `;
 
 export const VideoBox = styled(Box)`
-  height: 40vh;
-  width: 75vw;
+  height: 35vh;
+  width: 40vw;
+  @media (max-width: 600px) {
+      width: 80vw;
+  }
 `;
 
 const FormBox = styled(Box)`
@@ -95,7 +99,17 @@ const loginInitialValues = {
   email: '',
   phone: '',
   otp: '',
-}
+};
+
+const opts = {
+  width: '100%',  // Set your desired width
+  height: '250', // Set your desired height
+  playerVars: {
+    autoplay: 1,   // Autoplay the video
+    controls: 0,   // Hide video controls
+    mute: 1,       // Mute the video
+  },
+};
 
 
 const Login = () => {
@@ -168,7 +182,12 @@ const Login = () => {
       </Box>
       <Main>
         <ContentBoxOne>
-          <VideoBox></VideoBox>
+          <VideoBox>
+            <YouTube
+                videoId="ZSHkJ7HO4pI"
+                opts={opts}
+            />
+          </VideoBox>
         </ContentBoxOne>
         <Content>
           {!showOtpForm ? (
