@@ -2,28 +2,28 @@ import React from 'react'
 import { Box, Button, TextField } from '@mui/material';
 import styled from '@emotion/styled';
 import YouTube from 'react-youtube';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
 
 const HomeBox = styled(Box)`
     height: 100%;
     width: 100%;
-    border: 1px solid black;
 `;
 
 const VideoBox = styled(Box)`
-    height: 70vh;
+    height: 80vh;
     width: inherit;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    border: 1px solid black;
     background-image: url('videobox.jpg');
     background-size: cover;
     background-position: center;
 `
 
 const Video = styled(Box)`
-    border: 1px solid black;
     height: 35vh;
     width: 40vw;
     @media (max-width: 600px) {
@@ -34,7 +34,6 @@ const Video = styled(Box)`
 const SectionOne = styled(Box)`
     height: 60vh;
     width: inherit;
-    border: 1px solid black;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -51,10 +50,10 @@ const SectionOne = styled(Box)`
     }
 `;
 
-const Image = styled(Box)`
+const Image = styled.img`
     height: 45vh;
     width: 22vw;
-    border: 1px solid black;
+    border-radius: 10px;
     @media (max-width: 600px) {
         display: none;
     }
@@ -63,12 +62,11 @@ const Image = styled(Box)`
 const FormBox = styled(Box)`
     width: 50vw;
     height: 55vh;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgb(240,255,240, 0.5);
     @media (max-width: 600px) {
         width: 80%;
     }
@@ -77,29 +75,70 @@ const FormBox = styled(Box)`
 const SectionTwo = styled(Box)`
     height: 55vh;
     width: 100%;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    @media (max-width: 600px) {
+        height: 35vh;
+    }
 `;
 
 const Heading = styled(Box)`
     height: 10vh;
-    width: 30vw;
-    border: 1px solid black;
+    width: 70vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     @media (max-width: 600px) {
-        width: 80vw;
+        width: 90vw;
+        font-size: 9px;
     }
 `
 
 const Pictures = styled(Box)`
     height: 40vh;
-    width: 60vw;
-    border: 1px solid black;
+    width: 40vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     @media (max-width: 600px) {
         width: 90vw;
+        height: 20vh;
     }
+`;
+
+const Images = styled.img`
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    @media (max-width: 600px){
+        height: 80px;
+        width: 80px;
+    }
+`;
+
+const CarouselContainer = styled(Box)`
+  width: 40vw;
+  height: 30vh;
+  @media (max-width: 600px) {
+    width: 90vw;
+    height: 20vh;
+  }
+`;
+
+const CarouselImageContainer = styled.div`
+  margin-right: 10px;  /* Adjust the margin to control the gap between images */
+`;
+
+const CarouselImage = styled.img`
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+  @media (max-width: 600px) {
+    height: 80px;
+    width: 80px;
+  }
 `;
 
 const opts = {
@@ -113,6 +152,7 @@ const opts = {
   };
 
 const Home = () => {
+    const images = ['/Photo1.jpg', '/Photo2.jpg', '/Photo3.jpg', '/Photo5.jpg', '/Photo6.jpg', '/Photo7.jpg', '/Photo8.jpg']
   return (
     <HomeBox>
         <VideoBox>
@@ -125,11 +165,11 @@ const Home = () => {
             </Video>
         </VideoBox>
         <SectionOne>
-            <Image></Image>
+            <Image src='/Drone.jpg'/>
             <FormBox component="form">
                 <TextField
                     variant="filled"
-                    sx={{ width: '80%', fontSize: '20px' }} 
+                    sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
                     type='text' 
                     label="Name"
                     name='name'
@@ -139,7 +179,7 @@ const Home = () => {
                 />
                 <TextField
                     variant="filled"
-                    sx={{ width: '80%', fontSize: '20px' }} 
+                    sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
                     type='text' 
                     label="Email"
                     name='email'
@@ -148,7 +188,7 @@ const Home = () => {
                 />
                 <TextField
                     variant="filled"
-                    sx={{ width: '80%', fontSize: '20px' }} 
+                    sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
                     type='text' 
                     label="Company"
                     name='company'
@@ -158,7 +198,7 @@ const Home = () => {
                 />
                 <TextField
                     variant="filled"
-                    sx={{ width: '80%', fontSize: '20px' }} 
+                    sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
                     type='text' 
                     label="Designation"
                     name='designation'
@@ -166,14 +206,24 @@ const Home = () => {
                     required
                     // value={login.phone}
                 />
-                <Button sx={{backgroundColor: 'blue', color: 'white'}}>
+                <Button sx={{backgroundColor: 'blue', color: 'white', zIndex: 0}}>
                     Submit
                 </Button>
             </FormBox>
         </SectionOne>
         <SectionTwo>
-            <Heading></Heading>
-            <Pictures></Pictures>
+            <Heading>
+                <h1 style={{color: '#FFB402'}}>We are obsessed with collaboration, community and consumers.</h1>
+            </Heading>
+            <CarouselContainer>
+                <Carousel showThumbs={false} showArrows emulateTouch infiniteLoop centerMode centerSlidePercentage={25}>
+                    {images.map((image, idx) => (
+                    <CarouselImageContainer key={idx}>
+                        <CarouselImage src={image} alt={`Image ${idx + 1}`} />
+                    </CarouselImageContainer>
+                    ))}
+                </Carousel>
+            </CarouselContainer>
         </SectionTwo>
     </HomeBox>
   )

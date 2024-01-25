@@ -8,8 +8,11 @@ const NavBar = styled(Box)`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
     overflow-x: hidden;
+    position: fixed;
+    background-color: white;
+    z-index: 1;
+    background-color: #F0FFF0
 `
 
 const Image = styled.img`
