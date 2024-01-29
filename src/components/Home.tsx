@@ -21,6 +21,7 @@ const VideoBox = styled(Box)`
     background-image: url('videobox.jpg');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
 `
 
 const Video = styled(Box)`

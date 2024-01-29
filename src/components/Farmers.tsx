@@ -143,6 +143,7 @@ const MainBox = styled(Box)`
     background-image: url('videobox.jpg');
     background-size: cover;
     background-position: start;
+    background-attachment: fixed;
     width: inherit;
 `
 
