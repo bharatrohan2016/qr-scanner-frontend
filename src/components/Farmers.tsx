@@ -142,7 +142,7 @@ export const MainContent = styled(Box)`
 const MainBox = styled(Box)`
     background-image: url('videobox.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: start;
     width: inherit;
 `
 
