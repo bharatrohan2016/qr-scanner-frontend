@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, TextField } from '@mui/material';
 import styled from '@emotion/styled';
 import YouTube from 'react-youtube';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useNavigate } from 'react-router';
+import { signIn } from '../service/api';
 
 
 const HomeBox = styled(Box)`
@@ -157,8 +159,37 @@ const opts = {
     },
   };
 
+  const loginInitialValues = {
+    name: '',
+    email: '',
+    company: '',
+    designation: '',
+  };
+
+  const handleSubmit = (event: any) => {
+    // event.preventDefault();
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+  };
+  
 const Home = () => {
+    const [login, setLogin] = useState(loginInitialValues)
+    const navigate = useNavigate()
+    const onValueChange = (e: any) => {
+        setLogin({...login, [e.target.name]: e.target.value});
+    }
     const images = ['/Photo1.jpg', '/Photo2.jpg', '/Photo3.jpg', '/Photo5.jpg', '/Photo6.jpg', '/Photo7.jpg', '/Photo8.jpg']
+    const loginUser = async () => {
+        try {
+          let response = await signIn(login);
+          navigate(`/farmer`)
+        } catch (error) {
+          console.log(error);
+        }
+      }
   return (
     <HomeBox>
         <VideoBox>
@@ -173,14 +204,14 @@ const Home = () => {
         <SectionOne>
             <Green>
                 <Image src='/Drone.jpg'/>
-                <FormBox component="form">
+                <FormBox component="form" onSubmit={handleSubmit}>
                     <TextField
                         variant="filled"
                         sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
                         type='text' 
                         label="Name"
                         name='name'
-                        // onChange={(e) => onValueChange(e)}
+                        onChange={(e) => onValueChange(e)}
                         required
                         // value={login.name}
                     />
@@ -190,7 +221,7 @@ const Home = () => {
                         type='text' 
                         label="Email"
                         name='email'
-                        // onChange={(e) => onValueChange(e)}
+                        onChange={(e) => onValueChange(e)}
                         // value={login.email}
                     />
                     <TextField
@@ -199,7 +230,7 @@ const Home = () => {
                         type='text' 
                         label="Company"
                         name='company'
-                        // onChange={(e) => onValueChange(e)}
+                        onChange={(e) => onValueChange(e)}
                         required
                         // value={login.phone}
                     />
@@ -209,11 +240,11 @@ const Home = () => {
                         type='text' 
                         label="Designation"
                         name='designation'
-                        // onChange={(e) => onValueChange(e)}
+                        onChange={(e) => onValueChange(e)}
                         required
                         // value={login.phone}
                     />
-                    <Button sx={{backgroundColor: 'blue', color: 'white', zIndex: 0}}>
+                    <Button onClick={loginUser} sx={{backgroundColor: 'blue', color: 'white', zIndex: 0}}>
                         Submit
                     </Button>
                 </FormBox>

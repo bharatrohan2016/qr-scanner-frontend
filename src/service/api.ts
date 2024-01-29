@@ -18,3 +18,12 @@ export const getSingleFarmer =async (params:any) => {
         console.log(error); 
     }
 }
+
+export const signIn =async (data:any) => {
+    try {
+        return await axios.post(`${URI}/api/second-user/create-user`, data)
+    } catch (error) {
+        console.log(error);
+        
+    }   
+}
