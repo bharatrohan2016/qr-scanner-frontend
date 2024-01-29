@@ -34,21 +34,26 @@ const Video = styled(Box)`
 const SectionOne = styled(Box)`
     height: 60vh;
     width: inherit;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
     background-image: url('Section_1.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    background-color: rgba(255, 0, 0, 0.5);
+`;
+
+const Green = styled(Box)`
+    height: inherit;
+    width: inherit;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0, 255, 0, 0.1);
     @media (max-width: 600px) {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center
     }
-`;
+`
 
 const Image = styled.img`
     height: 45vh;
@@ -96,27 +101,27 @@ const Heading = styled(Box)`
     }
 `
 
-const Pictures = styled(Box)`
-    height: 40vh;
-    width: 40vw;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    @media (max-width: 600px) {
-        width: 90vw;
-        height: 20vh;
-    }
-`;
+// const Pictures = styled(Box)`
+//     height: 40vh;
+//     width: 40vw;
+//     display: flex;
+//     justify-content: space-around;
+//     align-items: center;
+//     @media (max-width: 600px) {
+//         width: 90vw;
+//         height: 20vh;
+//     }
+// `;
 
-const Images = styled.img`
-    height: 200px;
-    width: 200px;
-    object-fit: cover;
-    @media (max-width: 600px){
-        height: 80px;
-        width: 80px;
-    }
-`;
+// const Images = styled.img`
+//     height: 200px;
+//     width: 200px;
+//     object-fit: cover;
+//     @media (max-width: 600px){
+//         height: 80px;
+//         width: 80px;
+//     }
+// `;
 
 const CarouselContainer = styled(Box)`
   width: 40vw;
@@ -165,51 +170,53 @@ const Home = () => {
             </Video>
         </VideoBox>
         <SectionOne>
-            <Image src='/Drone.jpg'/>
-            <FormBox component="form">
-                <TextField
-                    variant="filled"
-                    sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
-                    type='text' 
-                    label="Name"
-                    name='name'
-                    // onChange={(e) => onValueChange(e)}
-                    required
-                    // value={login.name}
-                />
-                <TextField
-                    variant="filled"
-                    sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
-                    type='text' 
-                    label="Email"
-                    name='email'
-                    // onChange={(e) => onValueChange(e)}
-                    // value={login.email}
-                />
-                <TextField
-                    variant="filled"
-                    sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
-                    type='text' 
-                    label="Company"
-                    name='company'
-                    // onChange={(e) => onValueChange(e)}
-                    required
-                    // value={login.phone}
-                />
-                <TextField
-                    variant="filled"
-                    sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
-                    type='text' 
-                    label="Designation"
-                    name='designation'
-                    // onChange={(e) => onValueChange(e)}
-                    required
-                    // value={login.phone}
-                />
-                <Button sx={{backgroundColor: 'blue', color: 'white', zIndex: 0}}>
-                    Submit
-                </Button>
-            </FormBox>
+            <Green>
+                <Image src='/Drone.jpg'/>
+                <FormBox component="form">
+                    <TextField
+                        variant="filled"
+                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                        type='text' 
+                        label="Name"
+                        name='name'
+                        // onChange={(e) => onValueChange(e)}
+                        required
+                        // value={login.name}
+                    />
+                    <TextField
+                        variant="filled"
+                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                        type='text' 
+                        label="Email"
+                        name='email'
+                        // onChange={(e) => onValueChange(e)}
+                        // value={login.email}
+                    />
+                    <TextField
+                        variant="filled"
+                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                        type='text' 
+                        label="Company"
+                        name='company'
+                        // onChange={(e) => onValueChange(e)}
+                        required
+                        // value={login.phone}
+                    />
+                    <TextField
+                        variant="filled"
+                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                        type='text' 
+                        label="Designation"
+                        name='designation'
+                        // onChange={(e) => onValueChange(e)}
+                        required
+                        // value={login.phone}
+                    />
+                    <Button sx={{backgroundColor: 'blue', color: 'white', zIndex: 0}}>
+                        Submit
+                    </Button>
+                </FormBox>
+            </Green>
         </SectionOne>
         <SectionTwo>
             <Heading>

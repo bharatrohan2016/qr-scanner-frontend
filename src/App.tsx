@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Footer from "./components/Footer";
+import Farmers from "./components/Farmers";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/farmer" element={<Farmers />} />
         </Routes>
         <Footer />
       </Router>
