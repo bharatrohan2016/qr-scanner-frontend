@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 import { getFarmers } from '../service/api';
 import { useNavigate } from 'react-router-dom';
-import { BackgroundContainer, ContentBoxOne, Main, VideoBox } from './Login';
+import { BackgroundContainer, Main} from './Login';
 import { toast } from 'react-toastify';
 import NavBar from './NavBar';
 import YouTube from 'react-youtube';
@@ -58,15 +58,17 @@ export const Navbar = styled(Box)`
     }
 `;
 
-const HomePage = styled(Box)`
+export const HomePage = styled(Box)`
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
     min-height: 45vh;
     margin-top: 10vh;
+    z-index: 0;
     width: 48vw; 
     @media (max-width: 600px) {
+        margin-top: 15vh;
         width: 100%;
     }
 `;
@@ -105,7 +107,7 @@ const FarmerSection = styled(Box)`
     justify-content: center;
     align-items: center;
     @media (max-width: 600px) {
-        min-height: 15vh
+        min-height: 12vh
     }
 `
 
@@ -135,25 +137,58 @@ const Images = styled.img`
     }
 `
 
+const FarmerDemo = [
+    {
+        id: '1',
+        name: 'Sanchit Uppal',
+        place: 'Mahendra Park',
+        crops: ['paddy', 'wheat', 'maze', 'bazra'],
+        image: '/logo192.png'
+    },
+
+    {
+        id: '2',
+        name: 'Kishan Vaidya',
+        place: 'Adarsh Nagar',
+        crops: ['paddy', 'wheat', 'maze', 'bazra'],
+        image: '/logo192.png'
+    },
+
+    {
+        id: '3',
+        name: 'Mukesh Uppal',
+        place: 'GTB Park',
+        crops: ['paddy', 'wheat', 'maze', 'bazra'],
+        image: '/logo192.png'
+    },
+    {
+        id: '4',
+        name: 'Dhruv Uppal',
+        place: 'GTB Park',
+        crops: ['paddy', 'wheat', 'maze', 'bazra'],
+        image: '/logo192.png'
+    }
+]
+
 
 const ProfBox = styled(Box)`
     @media (max-width: 600px) {
         width: 40px;
-        height: 15vh;
+        min-height: 10vh;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: center
     }
 `
 
 const ProfileContent = styled(Box)`
     @media (max-width: 600px) {
         width: 180px;
-        height: 15vh;
+        min-height: 20vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: center
     }
 `
 
@@ -173,15 +208,30 @@ export const MainContent = styled(Box)`
     }
 `;
 
-const opts = {
-    width: '100%',  // Set your desired width
-    height: '250', // Set your desired height
-    playerVars: {
-      autoplay: 1,   // Autoplay the video
-      controls: 0,   // Hide video controls
-      mute: 1,       // Mute the video
-    },
-};
+    const VideoBox = styled(Box)`
+        height: 35vh;
+        width: 40vw;
+        position: fixed;
+        @media (max-width: 600px) {
+            width: 80vw;
+        }
+    `;
+
+    const ContentBoxOne = styled(Box)`
+        height: 80vh;
+        width: 45vw;
+        display: flex;
+        justify-content: center;
+        z-index: 0;
+        align-items: center;
+        @media (max-width: 600px) {
+            height: 50vh;
+            width: 80vw;
+        }
+    `;
+
+
+
 
 
 interface Farmer {
@@ -227,7 +277,9 @@ const Home = () => {
       }, []);
 
       const filteredFarmers = response?.filter(
-        (farmer) => farmer.dob === searchTerm
+        (farmer) =>
+          farmer.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          farmer.lastname.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
     if (typeof response === 'undefined') {
@@ -235,6 +287,16 @@ const Home = () => {
             <h1>Loading...</h1>
         )
     }
+
+    const opts = {
+        width: '100%',  // Set your desired width
+        height: '250', // Set your desired height
+        playerVars: {
+          autoplay: 1,   // Autoplay the video
+          controls: 0,   // Hide video controls
+          mute: 1,       // Mute the video
+        },
+      };
     
 
   return (
@@ -257,11 +319,11 @@ const Home = () => {
                     variant="filled"
                     sx={{ width: "80%", fontSize: "20px" }}
                     type="text"
-                    label="Enter Patch No..."
+                    label="Enter Name..."
                     InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">
-                        <SearchIcon sx={{ cursor: "pointer" }}/>
+                        <SearchIcon sx={{ cursor: "pointer" }} />
                         </InputAdornment>
                     ),
                     }}
@@ -269,28 +331,28 @@ const Home = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 </SearchBox>
-                <FarmerSection>
-                    {
-                        filteredFarmers ? filteredFarmers.map((data, key) => (
-                            <FarmerProfile key={key} onClick={() => {clickToFarmer(data)}}>
-                                <ProfBox sx={{height: '130px', width: '130px'}}>
-                                    <Images src='/logo192.png'/>
-                                </ProfBox>
-                                <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
-                                    <MainContent sx={{height: '130px', width: '20vw'}}>
-                                        <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
-                                        <Box>State: {capitalizeFirstLetter(data.state)}</Box>
-                                        <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
-                                    </MainContent>
-                                    <MainContent sx={{height: '130px', width: '20vw'}}>
-                                        <Box>Total Land: {data.totalLandArea}</Box>
-                                        <Box>Date of Birth: {data.dob}</Box>
-                                    </MainContent>
-                                </ProfileContent>
-                            </FarmerProfile>
-                        )) : 'Loading...'
-                    }
-                </FarmerSection>
+            <FarmerSection>
+                {
+                    filteredFarmers ? filteredFarmers.map((data, key) => (
+                        <FarmerProfile key={key} onClick={() => {clickToFarmer(data)}}>
+                            <ProfBox sx={{height: '130px', width: '130px'}}>
+                                <Images src='/logo192.png'/>
+                            </ProfBox>
+                            <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
+                                <MainContent sx={{height: '130px', width: '20vw'}}>
+                                    <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
+                                    <Box>State: {capitalizeFirstLetter(data.state)}</Box>
+                                    <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
+                                </MainContent>
+                                <MainContent sx={{height: '130px', width: '20vw'}}>
+                                    <Box>Total Land: {data.totalLandArea}</Box>
+                                    <Box>Date of Birth: {data.dob}</Box>
+                                </MainContent>
+                            </ProfileContent>
+                        </FarmerProfile>
+                    )) : 'Loading...'
+                }
+            </FarmerSection>
         </HomePage>
         </Main>
     </Box>

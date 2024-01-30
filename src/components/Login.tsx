@@ -37,7 +37,6 @@ export const Main = styled(Box)`
   width: 100vw;
   display: flex;
   justify-content: space-around;
-  align-items: center;
   margin-top: 10vh;
   @media (max-width: 600px) {
     display: flex;
