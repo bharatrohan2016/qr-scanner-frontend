@@ -7,7 +7,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useNavigate } from 'react-router';
 import { signIn } from '../service/api';
 
-
+                      
 const HomeBox = styled(Box)`
     height: 100%;
     width: 100%;
