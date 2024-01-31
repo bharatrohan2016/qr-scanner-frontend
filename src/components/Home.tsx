@@ -17,13 +17,18 @@ const VideoBox = styled(Box)`
     height: 80vh;
     width: inherit;
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-image: url('videobox.jpg');
+    background-image: url('first.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    @media(max-width: 600px){
+        height: 50vh;
+        background-position: right;
+        background-size: 500px 600px;
+    }
 `
 
 const Video = styled(Box)`
@@ -35,27 +40,23 @@ const Video = styled(Box)`
 `;
 
 const SectionOne = styled(Box)`
-    height: 60vh;
+    height: 70vh;
     width: inherit;
-    background-image: url('Section_1.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    @media (max-width: 600px) {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
 `;
 
 const Green = styled(Box)`
     height: inherit;
     width: inherit;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: rgba(0, 255, 0, 0.1);
-    @media (max-width: 600px) {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center
-    }
 `
 
 const Image = styled.img`
@@ -69,26 +70,46 @@ const Image = styled.img`
 
 const FormBox = styled(Box)`
     width: 50vw;
-    height: 55vh;
+    height: 65vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: rgb(240,255,240, 0.5);
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    border-radius: 20px;
     @media (max-width: 600px) {
         width: 80%;
+        height: 60vh;
     }
 `;
 
+
+const GreenBox = styled(Box)`
+    height: 35vh;
+    width: 35vw;
+    background-color: #193C34;
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+    font-size: 36px;
+    font-weight: 600;
+    @media (max-width: 600px) {
+        font-size: 15px;
+        height: 25vh;
+        width: 40vw;
+    }
+`
+
 const SectionTwo = styled(Box)`
-    height: 55vh;
+    height: 80vh;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     @media (max-width: 600px) {
-        height: 35vh;
+        height: 40vh;
     }
 `;
 
@@ -127,11 +148,44 @@ const Heading = styled(Box)`
 // `;
 
 const CarouselContainer = styled(Box)`
-  width: 40vw;
+  width: 80vw;
   height: 30vh;
+  display: flex;
+  gap: 8px;
   @media (max-width: 600px) {
     width: 90vw;
     height: 20vh;
+  };
+`;
+
+const CarouselImageSquare = styled.img`
+  width: 20%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  &:hover {
+    opacity: 0.7;
+  };
+  
+  @media (max-width: 600px) {
+    height: 80px;
+    width: 80px;
+  }
+`;
+
+
+const CarouselImageRectangle = styled.img`
+  width: 40%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  &:hover {
+    opacity: 0.7;
+  };
+  
+  @media (max-width: 600px) {
+    height: 80px;
+    width: 80px;
   }
 `;
 
@@ -139,15 +193,15 @@ const CarouselImageContainer = styled.div`
   margin-right: 10px;  /* Adjust the margin to control the gap between images */
 `;
 
-const CarouselImage = styled.img`
-  height: 200px;
-  width: 200px;
-  object-fit: cover;
-  @media (max-width: 600px) {
-    height: 80px;
-    width: 80px;
-  }
-`;
+// const CarouselImage = styled.img`
+//   height: 200px;
+//   width: 200px;
+//   object-fit: cover;
+//   @media (max-width: 600px) {
+//     height: 80px;
+//     width: 80px;
+//   }
+// `;
 
 const opts = {
     width: '100%',  // Set your desired width
@@ -193,18 +247,21 @@ const Home = () => {
   return (
     <HomeBox>
         <VideoBox>
+            <GreenBox>
+                <Box sx={{textShadow:  '1px 1px 2px rgba(0, 0, 0, 0.5)'}}>
+                    <i>
+                        Revolutionizing agriculture by eliminating traditional guesswork from farmers' fields and replacing it with scientific precision...
+                    </i>
+                </Box>
+            </GreenBox>
             <Box></Box>
-            <Video>
-                <YouTube
-                    videoId="ZSHkJ7HO4pI"
-                    opts={opts}
-                />
-            </Video>
+            <Box></Box>
         </VideoBox>
         <SectionOne>
-            <Green>
-                <Image src='/Drone.jpg'/>
+            {/* <Green> */}
+                {/* <Image src='/Drone.jpg'/> */}
                 <FormBox component="form" onSubmit={handleSubmit}>
+                    <Box component='h2'><i style={{color: '#E1AF3F'}}>Please Fill the Box:-</i></Box>
                     <TextField
                         variant="filled"
                         sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
@@ -248,20 +305,28 @@ const Home = () => {
                         Submit
                     </Button>
                 </FormBox>
-            </Green>
+            {/* </Green> */}
+            <Video>
+                <YouTube
+                    videoId="ZSHkJ7HO4pI"
+                    opts={opts}
+                />
+            </Video>
         </SectionOne>
         <SectionTwo>
             <Heading>
                 <h1 style={{color: '#FFB402'}}>We are obsessed with collaboration, community and consumers.</h1>
             </Heading>
             <CarouselContainer>
-                <Carousel showThumbs={false} showArrows emulateTouch infiniteLoop centerMode centerSlidePercentage={25}>
-                    {images.map((image, idx) => (
-                    <CarouselImageContainer key={idx}>
-                        <CarouselImage src={image} alt={`Image ${idx + 1}`} />
-                    </CarouselImageContainer>
-                    ))}
-                </Carousel>
+                <CarouselImageSquare src="/Photo1.jpg" alt="Image 1" />
+                <CarouselImageRectangle src="Photo2.jpg" alt="Image 2" />
+                <CarouselImageSquare src='Photo7.jpg' alt='Image' />
+                <CarouselImageSquare src="Photo4.jpg" alt="Image 3" />
+            </CarouselContainer>
+            <CarouselContainer>
+                <CarouselImageRectangle src="/Photo5.jpg" alt="Image 1" />
+                <CarouselImageRectangle src="Photo6.jpg" alt="Image 2" />
+                <CarouselImageSquare src='Photo7.jpg' alt='Image' />
             </CarouselContainer>
         </SectionTwo>
     </HomeBox>
