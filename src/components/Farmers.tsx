@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box, InputAdornment, TextField } from '@mui/material'
+import { Backdrop, Box, CircularProgress, InputAdornment, TextField } from '@mui/material'
 import YouTube from 'react-youtube'
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react'
@@ -138,6 +138,13 @@ interface Farmer {
 
 const Farmers = () => {
     const [response, setResponse] = useState<Farmer[] | undefined>();
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleOpen = () => {
+        setOpen(true);
+    };
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -153,7 +160,9 @@ const Farmers = () => {
 
       if (typeof response === 'undefined') {
         return(
-            <h1>Loading...</h1>
+            <Box sx={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <CircularProgress color="inherit" />
+            </Box>
         )
       }
   return (
@@ -178,7 +187,10 @@ const Farmers = () => {
                                 </MainContent>
                             </ProfileContent>
                         </FarmerProfile>
-                    )) : 'Loading...'
+                    )) : 
+                    <Box sx={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <CircularProgress color="inherit" />
+                    </Box>
                 }
             </FarmerSection>
         </FarmerBox>

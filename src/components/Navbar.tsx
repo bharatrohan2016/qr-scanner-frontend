@@ -44,7 +44,7 @@ const Navbar = () => {
   return (
     <NavBar style={{backgroundColor: scrolled ? 'white' : 'transparent'}}>
         <Box sx={{width: '2vw'}}></Box>
-        <Image src='/BharatRohan_Logo-03 copy.png' onClick={() => {
+        <Image style={{cursor: 'pointer'}} src='/BharatRohan_Logo-03 copy.png' onClick={() => {
           navigate('/')
         }} />
     </NavBar>
