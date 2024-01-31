@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import { Box } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 const NavBar = styled(Box)`
     height: 12vh;
@@ -26,6 +27,7 @@ const Image = styled.img`
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate()
     useEffect(() => {
         const handleScroll = () => {
         const isScrolled = window.scrollY > 0;
@@ -42,7 +44,9 @@ const Navbar = () => {
   return (
     <NavBar style={{backgroundColor: scrolled ? 'white' : 'transparent'}}>
         <Box sx={{width: '2vw'}}></Box>
-        <Image src='/BharatRohan_Logo-03 copy.png' />
+        <Image src='/BharatRohan_Logo-03 copy.png' onClick={() => {
+          navigate('/')
+        }} />
     </NavBar>
   )
 }

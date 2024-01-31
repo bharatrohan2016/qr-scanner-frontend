@@ -13,63 +13,24 @@ const Main = styled(Box)`
     width: 100%;
 `
 
-const VideoBox = styled(Box)`
-    height: 50vh;
-    width: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: end;
-`;
-
-const SearchBox = styled(Box)`
-    height: 10vh;
-    width: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const SearchB = styled(TextField)`
-    && {
-        @media (max-width: 600px) {
-            width: 80%;
-        }
-
-        .MuiInputBase-root {
-            border-bottom: none;
-            border-radius: 8px 8px 8px 8px;
-        }
-
-        .Mui-focused {
-            border-color: none;
-        }
-    }
-`;
 
 const FarmerBox = styled(Box)`
-    background-image: url('Section_1.jpg');
+    background-image: url('First.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     width: 100%;
-`;
-
-const White = styled(Box)`
-    background-color: rgba(255, 255, 255, 0.5);
-    height: 100%;
-    width: 100%;
+    padding-top: 12vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`
+`;
 
-const Green =styled(Box)`
-    background-color: rgba(0, 255, 0, 0.3);
-`
 
 const FarmerSection = styled(Box)`
     width: 80%;
+    
     @media (max-width: 600px) {
         min-height: 15vh
     }
@@ -197,58 +158,29 @@ const Farmers = () => {
       }
   return (
     <Main>
-        <MainBox>
-            <VideoBox>
-                <YouTube
-                    videoId="ZSHkJ7HO4pI"
-                    opts={opts}
-                />
-            </VideoBox>
-            <SearchBox>
-                <SearchB
-                    variant="filled"
-                    sx={{ width: "50%", fontSize: "20px", opacity: 0.5, backgroundColor: 'white', borderRadius: '20px' }}
-                    type="text"
-                    label="Enter Patch No..."
-                    InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <SearchIcon sx={{ cursor: "pointer" }}/>
-                        </InputAdornment>
-                    ),
-                    }}
-                    // value={searchTerm}
-                    // onChange={(e) => setSearchTerm(e.target.value)}
-                />
-            </SearchBox>
-        </MainBox>
         <FarmerBox>
-            <Green>
-                    <White>
-                        <FarmerSection>
-                            {
-                                response ? response.map((data, key) => (
-                                    <FarmerProfile key={key} >
-                                        <ProfBox sx={{height: '130px', width: '130px'}}>
-                                            <Images src='/logo192.png'/>
-                                        </ProfBox>
-                                        <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
-                                            <MainContent sx={{height: '130px', width: '20vw'}}>
-                                                <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
-                                                <Box>State: {capitalizeFirstLetter(data.state)}</Box>
-                                                <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
-                                            </MainContent>
-                                            <MainContent sx={{height: '130px', width: '20vw'}}>
-                                                <Box>Total Land: {data.totalLandArea}</Box>
-                                                <Box>Date of Birth: {data.dob}</Box>
-                                            </MainContent>
-                                        </ProfileContent>
-                                    </FarmerProfile>
-                                )) : 'Loading...'
-                            }
-                        </FarmerSection>
-                    </White>
-            </Green>
+            <FarmerSection>
+                {
+                    response ? response.map((data, key) => (
+                        <FarmerProfile key={key} >
+                            <ProfBox sx={{height: '130px', width: '130px'}}>
+                                <Images src='/logo192.png'/>
+                            </ProfBox>
+                            <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
+                                <MainContent sx={{height: '130px', width: '20vw'}}>
+                                    <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
+                                    <Box>State: {capitalizeFirstLetter(data.state)}</Box>
+                                    <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
+                                </MainContent>
+                                <MainContent sx={{height: '130px', width: '20vw'}}>
+                                    <Box>Total Land: {data.totalLandArea}</Box>
+                                    <Box>Date of Birth: {data.dob}</Box>
+                                </MainContent>
+                            </ProfileContent>
+                        </FarmerProfile>
+                    )) : 'Loading...'
+                }
+            </FarmerSection>
         </FarmerBox>
     </Main>
   )
