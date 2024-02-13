@@ -1,221 +1,88 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Button, InputAdornment, TextField } from '@mui/material';
+import React, { useState } from 'react'
+import { Box, Button, TextField } from '@mui/material';
 import styled from '@emotion/styled';
-import SearchIcon from '@mui/icons-material/Search';
-import { getFarmers } from '../service/api';
-import { useNavigate } from 'react-router-dom';
-import { BackgroundContainer, Main} from './Login';
-import { toast } from 'react-toastify';
-import NavBar from './NavBar';
 import YouTube from 'react-youtube';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useNavigate } from 'react-router';
+import { signIn } from '../service/api';
 
-// const BackgroundContainer = styled(Box)`
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   background: linear-gradient(45deg, #ff8a00, #4caf50);
-//   background-size: 400% 400%;
-//   animation: gradientAnimation 10s infinite;
+                      
+const HomeBox = styled(Box)`
+    height: 100%;
+    width: 100%;
+`;
 
-//   @keyframes gradientAnimation {
-//     0% {
-//       background-position: 0% 50%;
-//     }
-//     50% {
-//       background-position: 100% 50%;
-//     }
-//     100% {
-//       background-position: 0% 50%;
-//     }
-//   }
-//   background-size: cover;
-//   background-position: center;
-//   z-index: -1;
-//   opacity: 0.7;
-// `;
-
-
-
-export const Logo = styled.img`
+const VideoBox = styled(Box)`
+    height: 80vh;
+    width: inherit;
     display: flex;
-    justify-content: center;
+    // flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    width: 200px;
-    height: 200px;
-    margin-top: 2%;
+    background-image: url('first.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    @media(max-width: 600px){
+        height: 50vh;
+        background-position: right;
+        background-size: 500px 600px;
+    }
+`
+
+const Video = styled(Box)`
+    height: 35vh;
+    width: 40vw;
     @media (max-width: 600px) {
-        width: 100px;
-        height: 100px;
-        overflowX: 'hidden'
+        width: 80vw;
     }
 `;
 
-export const Navbar = styled(Box)`
-    @media (max-width: 600px) {
-        height: 10vh;
-    }
-`;
-
-export const HomePage = styled(Box)`
+const SectionOne = styled(Box)`
+    height: 70vh;
+    width: inherit;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    flex-direction: column;
-    min-height: 45vh;
-    margin-top: 10vh;
-    z-index: 0;
-    width: 48vw; 
     @media (max-width: 600px) {
-        margin-top: 15vh;
-        width: 100%;
-    }
-`;
-
-const SearchBox = styled(Box)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 20vh;
-    width: 80%;
-`
-
-const SearchB = styled(TextField)`
-    && {
-        @media (max-width: 600px) {
-            width: 80%;
-        }
-
-        .MuiInputBase-root {
-            border-bottom: none;
-            border-radius: 8px 8px 8px 8px;
-        }
-
-        .Mui-focused {
-            border-color: none;
-        }
-    }
-`
-
-const FarmerSection = styled(Box)`
-    width: 100%;
-    min-height: 30vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    @media (max-width: 600px) {
-        min-height: 12vh
-    }
-`
-
-const FarmerProfile = styled(Box)`
-    background-color: rgba(255, 255, 255, 0.5);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 135px;
-    margin-top: 3%;
-    &:hover {
-        opacity: 0.7;
-    }
-    @media (max-width: 600px) {
-        height: 15vh;
-        &:active {
-            opacity: 0.7; /* Apply the hover effect on touch devices */
-        }
-    }
-`
-
-const Images = styled.img`
-    width: 120px;
-    @media (max-width: 600px) {
-        width: 40px
-    }
-`
-
-const FarmerDemo = [
-    {
-        id: '1',
-        name: 'Sanchit Uppal',
-        place: 'Mahendra Park',
-        crops: ['paddy', 'wheat', 'maze', 'bazra'],
-        image: '/logo192.png'
-    },
-
-    {
-        id: '2',
-        name: 'Kishan Vaidya',
-        place: 'Adarsh Nagar',
-        crops: ['paddy', 'wheat', 'maze', 'bazra'],
-        image: '/logo192.png'
-    },
-
-    {
-        id: '3',
-        name: 'Mukesh Uppal',
-        place: 'GTB Park',
-        crops: ['paddy', 'wheat', 'maze', 'bazra'],
-        image: '/logo192.png'
-    },
-    {
-        id: '4',
-        name: 'Dhruv Uppal',
-        place: 'GTB Park',
-        crops: ['paddy', 'wheat', 'maze', 'bazra'],
-        image: '/logo192.png'
-    }
-]
-
-
-const ProfBox = styled(Box)`
-    @media (max-width: 600px) {
-        width: 40px;
-        min-height: 10vh;
-        display: flex;
-        justify-content: center;
-        align-items: center
-    }
-`
-
-const ProfileContent = styled(Box)`
-    @media (max-width: 600px) {
-        width: 180px;
-        min-height: 20vh;
+        height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center
-    }
-`
-
-export const MainContent = styled(Box)`
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: space-around;
-    @media (max-width: 600px) {
-        width: 160px;
-        display: flex;
-        height: 7vh;
-        justify-content: start;
-        align-items: start;
-        font-size: 11px;
-        padding: 0;
+        align-items: center;
+        justify-content: space-around;
     }
 `;
 
-    const VideoBox = styled(Box)`
-        height: 35vh;
-        width: 40vw;
-        position: fixed;
-        @media (max-width: 600px) {
-            width: 80vw;
-        }
-    `;
+const Green = styled(Box)`
+    height: inherit;
+    width: inherit;
+`
+
+const Image = styled.img`
+    height: 45vh;
+    width: 22vw;
+    border-radius: 10px;
+    @media (max-width: 600px) {
+        display: none;
+    }
+`
+
+const FormBox = styled(Box)`
+    width: 50vw;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    border-radius: 20px;
+    @media (max-width: 600px) {
+        width: 80%;
+        height: 60vh;
+    }
+`;
 
     const ContentBoxOne = styled(Box)`
         height: 80vh;
@@ -232,130 +99,251 @@ export const MainContent = styled(Box)`
 
 
 
+const GreenBox = styled(Box)`
+    height: 35vh;
+    width: 35vw;
+    background-color: #193C34;
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+    font-size: 36px;
+    font-weight: 600;
+    @media (max-width: 600px) {
+        font-size: 15px;
+        height: 25vh;
+        width: 40vw;
+    }
+`
 
+const SectionTwo = styled(Box)`
+    height: 80vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    @media (max-width: 600px) {
+        height: 40vh;
+    }
+`;
 
-interface Farmer {
-    firstname: string;
-    lastname: string;
-    state: string;
-    village: string;
-    totalLandArea: number;
-    dob: string
-}
+const Heading = styled(Box)`
+    height: 10vh;
+    width: 70vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: 600px) {
+        width: 90vw;
+        font-size: 9px;
+    }
+`
 
-export const capitalizeFirstLetter = (str:any) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-};
+// const Pictures = styled(Box)`
+//     height: 40vh;
+//     width: 40vw;
+//     display: flex;
+//     justify-content: space-around;
+//     align-items: center;
+//     @media (max-width: 600px) {
+//         width: 90vw;
+//         height: 20vh;
+//     }
+// `;
 
-export const hideWord = (str:any) => {
-    return str.charAt(0).toUpperCase() + 'X'.repeat(str.length - 1);
-}
+// const Images = styled.img`
+//     height: 200px;
+//     width: 200px;
+//     object-fit: cover;
+//     @media (max-width: 600px){
+//         height: 80px;
+//         width: 80px;
+//     }
+// `;
+
+const CarouselContainer = styled(Box)`
+  width: 80vw;
+  height: 30vh;
+  display: flex;
+  gap: 8px;
+  @media (max-width: 600px) {
+    width: 90vw;
+    height: 20vh;
+  };
+`;
+
+const CarouselImageSquare = styled.img`
+  width: 20%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  &:hover {
+    opacity: 0.7;
+  };
   
+  @media (max-width: 600px) {
+    height: 80px;
+    width: 80px;
+  }
+`;
 
+
+const CarouselImageRectangle = styled.img`
+  width: 40%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  &:hover {
+    opacity: 0.7;
+  };
+  
+  @media (max-width: 600px) {
+    height: 80px;
+    width: 80px;
+  }
+`;
+
+const CarouselImageContainer = styled.div`
+  margin-right: 10px;  /* Adjust the margin to control the gap between images */
+`;
+
+// const CarouselImage = styled.img`
+//   height: 200px;
+//   width: 200px;
+//   object-fit: cover;
+//   @media (max-width: 600px) {
+//     height: 80px;
+//     width: 80px;
+//   }
+// `;
+
+const opts = {
+    width: '100%',  // Set your desired width
+    height: '250', // Set your desired height
+    playerVars: {
+      autoplay: 1,   // Autoplay the video
+      controls: 0,   // Hide video controls
+      mute: 1,       // Mute the video
+    },
+  };
+
+  const loginInitialValues = {
+    name: '',
+    email: '',
+    company: '',
+    designation: '',
+  };
+
+  const handleSubmit = (event: any) => {
+    // event.preventDefault();
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+  };
+  
 const Home = () => {
-    const [response, setResponse] = useState<Farmer[] | undefined>();
-    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [login, setLogin] = useState(loginInitialValues)
     const navigate = useNavigate()
-    const userInfo = localStorage.getItem("userInfo");
-
-    const clickToFarmer = (e:any) => {
-        navigate(`/farmerprofile/${e._id}`)
+    const onValueChange = (e: any) => {
+        setLogin({...login, [e.target.name]: e.target.value});
     }
-
-    
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const result = await getFarmers();
-            setResponse(result?.data);
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        };
-    
-        fetchData();
-      }, []);
-
-      const filteredFarmers = response?.filter(
-        (farmer) =>
-          farmer.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          farmer.lastname.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
-    if (typeof response === 'undefined') {
-        return(
-            <h1>Loading...</h1>
-        )
-    }
-
-    const opts = {
-        width: '100%',  // Set your desired width
-        height: '250', // Set your desired height
-        playerVars: {
-          autoplay: 1,   // Autoplay the video
-          controls: 0,   // Hide video controls
-          mute: 1,       // Mute the video
-        },
-      };
-    
-
+    const images = ['/Photo1.jpg', '/Photo2.jpg', '/Photo3.jpg', '/Photo5.jpg', '/Photo6.jpg', '/Photo7.jpg', '/Photo8.jpg']
+    const loginUser = async () => {
+        try {
+          let response = await signIn(login);
+          navigate(`/farmer`)
+        } catch (error) {
+          console.log(error);
+        }
+      }
   return (
-    <Box sx={{overflowX: 'hidden'}}>
-        <BackgroundContainer></BackgroundContainer>
-        <NavBar />
-        <Main>
-            <ContentBoxOne>
-                <VideoBox>
-                    <YouTube
-                        videoId="ZSHkJ7HO4pI"
-                        opts={opts}
+    <HomeBox>
+        <VideoBox>
+            <GreenBox>
+                <Box sx={{textShadow:  '1px 1px 2px rgba(0, 0, 0, 0.5)'}}>
+                    <i>
+                        Revolutionizing agriculture by eliminating traditional guesswork from farmers' fields and replacing it with scientific precision...
+                    </i>
+                </Box>
+            </GreenBox>
+            <Box></Box>
+            <Box></Box>
+        </VideoBox>
+        <SectionOne>
+            {/* <Green> */}
+                {/* <Image src='/Drone.jpg'/> */}
+                <FormBox component="form" onSubmit={handleSubmit}>
+                    <Box component='h2'><i style={{color: '#E1AF3F'}}>Please Fill the Box:-</i></Box>
+                    <TextField
+                        variant="filled"
+                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                        type='text' 
+                        label="Name"
+                        name='name'
+                        onChange={(e) => onValueChange(e)}
+                        required
+                        // value={login.name}
                     />
-                </VideoBox>
-            </ContentBoxOne>
-            <HomePage>
-                <Logo src='/Logo-BR.svg' />
-                <SearchBox>
-                <SearchB
-                    variant="filled"
-                    sx={{ width: "80%", fontSize: "20px" }}
-                    type="text"
-                    label="Enter Name..."
-                    InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                        <SearchIcon sx={{ cursor: "pointer" }} />
-                        </InputAdornment>
-                    ),
-                    }}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    <TextField
+                        variant="filled"
+                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                        type='text' 
+                        label="Email"
+                        name='email'
+                        onChange={(e) => onValueChange(e)}
+                        // value={login.email}
+                    />
+                    <TextField
+                        variant="filled"
+                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                        type='text' 
+                        label="Company"
+                        name='company'
+                        onChange={(e) => onValueChange(e)}
+                        required
+                        // value={login.phone}
+                    />
+                    <TextField
+                        variant="filled"
+                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                        type='text' 
+                        label="Designation"
+                        name='designation'
+                        onChange={(e) => onValueChange(e)}
+                        required
+                        // value={login.phone}
+                    />
+                    <Button onClick={loginUser} sx={{backgroundColor: 'blue', color: 'white', zIndex: 0}}>
+                        Submit
+                    </Button>
+                </FormBox>
+            {/* </Green> */}
+            <Video>
+                <YouTube
+                    videoId="ZSHkJ7HO4pI"
+                    opts={opts}
                 />
-                </SearchBox>
-            <FarmerSection>
-                {
-                    filteredFarmers ? filteredFarmers.map((data, key) => (
-                        <FarmerProfile key={key} onClick={() => {clickToFarmer(data)}}>
-                            <ProfBox sx={{height: '130px', width: '130px'}}>
-                                <Images src='/logo192.png'/>
-                            </ProfBox>
-                            <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
-                                <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
-                                    <Box>State: {capitalizeFirstLetter(data.state)}</Box>
-                                    <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
-                                </MainContent>
-                                <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Total Land: {data.totalLandArea}</Box>
-                                    <Box>Date of Birth: {data.dob}</Box>
-                                </MainContent>
-                            </ProfileContent>
-                        </FarmerProfile>
-                    )) : 'Loading...'
-                }
-            </FarmerSection>
-        </HomePage>
-        </Main>
-    </Box>
+            </Video>
+        </SectionOne>
+        <SectionTwo>
+            <Heading>
+                <h1 style={{color: '#FFB402'}}>We are obsessed with collaboration, community and consumers.</h1>
+            </Heading>
+            <CarouselContainer>
+                <CarouselImageSquare src="/Photo1.jpg" alt="Image 1" />
+                <CarouselImageRectangle src="Photo2.jpg" alt="Image 2" />
+                <CarouselImageSquare src='Photo7.jpg' alt='Image' />
+                <CarouselImageSquare src="Photo4.jpg" alt="Image 3" />
+            </CarouselContainer>
+            <CarouselContainer>
+                <CarouselImageRectangle src="/Photo5.jpg" alt="Image 1" />
+                <CarouselImageRectangle src="Photo6.jpg" alt="Image 2" />
+                <CarouselImageSquare src='Photo7.jpg' alt='Image' />
+            </CarouselContainer>
+        </SectionTwo>
+    </HomeBox>
   )
 }
 
