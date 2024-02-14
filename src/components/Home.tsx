@@ -20,7 +20,7 @@ const VideoBox = styled(Box)`
     // flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-image: url('first.png');
+    background-image: url('First.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
