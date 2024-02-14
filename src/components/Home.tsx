@@ -26,8 +26,8 @@ const VideoBox = styled(Box)`
     background-attachment: fixed;
     @media(max-width: 600px){
         height: 50vh;
-        background-position: right;
-        background-size: 500px 600px;
+        background-position: center;
+        background-size: 900px 900px;
     }
 `
 
@@ -109,7 +109,7 @@ const GreenBox = styled(Box)`
     font-size: 36px;
     font-weight: 600;
     @media (max-width: 600px) {
-        font-size: 15px;
+        font-size: 1.1rem;
         height: 25vh;
         width: 40vw;
     }
