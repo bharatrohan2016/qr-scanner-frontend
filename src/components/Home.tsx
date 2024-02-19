@@ -6,6 +6,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useNavigate } from 'react-router';
 import { signIn } from '../service/api';
+import { toast } from 'react-toastify';
 
                       
 const HomeBox = styled(Box)`
@@ -253,7 +254,9 @@ const Home = () => {
     const loginUser = async () => {
         try {
           let response = await signIn(login);
-          navigate(`/farmer`)
+        //   navigate(`/farmer`)
+          toast.success('Submitted!')
+          setLogin(loginInitialValues)
         } catch (error) {
           console.log(error);
         }
@@ -284,7 +287,7 @@ const Home = () => {
                         name='name'
                         onChange={(e) => onValueChange(e)}
                         required
-                        // value={login.name}
+                        value={login.name}
                     />
                     <TextField
                         variant="filled"
@@ -293,7 +296,7 @@ const Home = () => {
                         label="Email"
                         name='email'
                         onChange={(e) => onValueChange(e)}
-                        // value={login.email}
+                        value={login.email}
                     />
                     <TextField
                         variant="filled"
@@ -303,7 +306,7 @@ const Home = () => {
                         name='company'
                         onChange={(e) => onValueChange(e)}
                         required
-                        // value={login.phone}
+                        value={login.company}
                     />
                     <TextField
                         variant="filled"
@@ -313,7 +316,7 @@ const Home = () => {
                         name='designation'
                         onChange={(e) => onValueChange(e)}
                         required
-                        // value={login.phone}
+                        value={login.designation}
                     />
                     <Button onClick={loginUser} sx={{backgroundColor: 'blue', color: 'white', zIndex: 0}}>
                         Submit

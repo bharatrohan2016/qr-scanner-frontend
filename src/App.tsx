@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Footer from "./components/Footer";
 import Farmers from "./components/Farmers";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
