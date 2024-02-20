@@ -262,6 +262,7 @@ const opts = {
     email: '',
     company: '',
     designation: '',
+    barcode: ''
   };
 
   const handleSubmit = (event: any) => {
@@ -287,7 +288,7 @@ const Home = () => {
     const loginUser = async () => {
         try {
           let response = await signIn(login);
-        //   navigate(`/farmer`)
+          navigate(`/farmer/${login.barcode}`)
           toast.success("Stay tuned! We'll be in touch soon!")
           setLogin(loginInitialValues)
         } catch (error) {
@@ -360,6 +361,17 @@ const Home = () => {
                             onChange={(e) => onValueChange(e)}
                             required
                             value={login.designation}
+                        />
+                        <TextField
+                            variant="outlined"
+                            className='input-feild' 
+                            type='text' 
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            label="Barcode No."
+                            name='barcode'
+                            onChange={(e) => onValueChange(e)}
+                            required
+                            value={login.barcode}
                         />
                     </ThemeProvider>
                     <Button onClick={loginUser} className='btn-submit'>

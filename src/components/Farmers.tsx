@@ -3,7 +3,8 @@ import { Backdrop, Box, CircularProgress, InputAdornment, TextField } from '@mui
 import YouTube from 'react-youtube'
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react'
-import { getFarmers } from '../service/api';
+import { getFarmer } from '../service/api';
+import { useParams } from 'react-router-dom';
 
 const Main = styled(Box)`
     display: flex;
@@ -139,6 +140,7 @@ interface Farmer {
 const Farmers = () => {
     const [response, setResponse] = useState<Farmer[] | undefined>();
     const [open, setOpen] = React.useState(false);
+    const { params } = useParams()
     const handleClose = () => {
         setOpen(false);
     };
@@ -148,8 +150,10 @@ const Farmers = () => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const result = await getFarmers();
+            const result = await getFarmer(params);
             setResponse(result?.data);
+            console.log(result);
+            
           } catch (error) {
             console.error("Error fetching data:", error);
           }
@@ -167,7 +171,7 @@ const Farmers = () => {
       }
   return (
     <Main>
-        <FarmerBox>
+        {/* <FarmerBox>
             <FarmerSection>
                 {
                     response ? response.map((data, key) => (
@@ -193,7 +197,7 @@ const Farmers = () => {
                     </Box>
                 }
             </FarmerSection>
-        </FarmerBox>
+        </FarmerBox> */}
     </Main>
   )
 }
