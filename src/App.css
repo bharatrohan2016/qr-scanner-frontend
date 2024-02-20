@@ -7,6 +7,51 @@
   pointer-events: none;
 }
 
+
+.three h1 {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.5em;
+  padding-bottom: 15px;
+  text-align: left;
+  position: relative;
+}
+.three h1:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 5px;
+  width: 55px;
+  background-color: #111;
+}
+.three h1:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  height: 1px;
+  width: 95%;
+  max-width: 255px;
+  background-color: #333;
+}
+
+.btn-submit {
+  border-radius: 40px !important;
+  width: 150px !important;
+  padding-top: 10px !important;
+  /* border: 2px solid rgb(25, 60, 52) !important; */
+  color: rgb(25, 60, 52) !important;
+  background-color: rgb(255, 180, 2) !important;
+  transition: 0.5s ease-in-out;
+}
+
+.btn-submit:hover {
+  background-color: rgb(25, 60, 52) !important;
+  color: white !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -35,4 +80,55 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.background-green{
+  background-color: rgb(25, 60, 52);
+}
+
+.carousel-heading{
+  color : white;
+  text-align: left;
+  padding: 20px;
+  color: #FFB402;
+}
+
+
+@media (max-width: 600px) {
+  .carousel-heading{
+    width: 90vw;
+    font-size: 20px;
+  }
+}
+
+.btn-connect{
+    border-radius : 25px;
+    display: inline-block;
+    text-decoration: none;
+    margin-top : 10px;
+    padding :  15px 20px 17px 20px;
+    cursor : pointer;
+    margin-bottom : 10px;
+    border : 2px solid rgb(25, 60, 52);
+    background-color : #FFB402;
+    color : rgb(25, 60, 52);
+    font-size : 20px;
+    transition: 0.5s ease-in-out;
+    font-weight: 500;
+}
+
+.btn-connect:hover {
+  background-color: rgb(25, 60, 52);
+  color : white;
+  border : 2px solid white;
+}
+
+@media (max-width : 600px) {
+  .btn-connect{
+    border-radius : 15px;
+    padding :  10px 15px 12px 15px;
+    font-size : 15px;
+    transition: 0.5s ease-in-out;
+    /* align-items: center; */
+}
 }

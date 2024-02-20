@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Theme, makeStyles } from '@mui/material';
 import styled from '@emotion/styled';
 import YouTube from 'react-youtube';
 import { Carousel } from 'react-responsive-carousel';
@@ -7,7 +7,8 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useNavigate } from 'react-router';
 import { signIn } from '../service/api';
 import { toast } from 'react-toastify';
-
+import Carousels from './Carousels';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
                       
 const HomeBox = styled(Box)`
     height: 100%;
@@ -15,28 +16,31 @@ const HomeBox = styled(Box)`
 `;
 
 const VideoBox = styled(Box)`
-    height: 80vh;
+    
     width: inherit;
     display: flex;
-    // flex-direction: column;
-    justify-content: space-around;
+    min-height: 100vh;
+
+    justify-content: center;
     align-items: center;
-    background-image: url('First.png');
+    background-image: url('third-copy.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     @media(max-width: 600px){
-        height: 50vh;
+        min-height: 50vh;
+       
+
         background-position: center;
         background-size: 900px 900px;
     }
 `
 
 const Video = styled(Box)`
-    height: 35vh;
     width: 40vw;
     @media (max-width: 600px) {
-        width: 80vw;
+        margin-top : 2vh;
+        width: 90%;
     }
 `;
 
@@ -46,6 +50,8 @@ const SectionOne = styled(Box)`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin-top : 2vh;
+    margin-bottom : 2vh;
     @media (max-width: 600px) {
         height: 100vh;
         display: flex;
@@ -78,10 +84,18 @@ const FormBox = styled(Box)`
     align-items: center;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
-    border-radius: 20px;
+    border-radius: 50px;
+    border-top-right-radius : 0px;
+    border-bottom-left-radius : 0px;
+    border-left : 4px solid rgb(25, 60, 52); 
+    border-bottom : 4px solid rgb(25, 60, 52); 
+    padding-bottom : 8px;
     @media (max-width: 600px) {
-        width: 80%;
+        width: 90%;
         height: 60vh;
+        border-top-right-radius : 0px;
+        border-bottom-left-radius : 0px;
+        padding-bottom : 2px;
     }
 `;
 
@@ -101,18 +115,16 @@ const FormBox = styled(Box)`
 
 
 const GreenBox = styled(Box)`
-    height: 35vh;
-    width: 35vw;
-    background-color: #193C34;
+   
+    // background-color: #193c2b99;
+    background-color : #63636382;
     color: #fff;
-    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
     font-size: 36px;
     font-weight: 600;
     @media (max-width: 600px) {
         font-size: 1.1rem;
-        height: 25vh;
-        width: 40vw;
+        font-weight: 400;
     }
 `
 
@@ -122,9 +134,12 @@ const SectionTwo = styled(Box)`
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color : rgb(25, 60, 52);
     justify-content: space-around;
+    padding-bottom : 3vh;
     @media (max-width: 600px) {
         height: 40vh;
+        padding-bottom : 0vh;
     }
 `;
 
@@ -134,6 +149,7 @@ const Heading = styled(Box)`
     display: flex;
     justify-content: center;
     align-items: center;
+   
     @media (max-width: 600px) {
         width: 90vw;
         font-size: 9px;
@@ -166,6 +182,7 @@ const CarouselContainer = styled(Box)`
   width: 80vw;
   height: 30vh;
   display: flex;
+  
   gap: 8px;
   @media (max-width: 600px) {
     width: 90vw;
@@ -178,11 +195,19 @@ const CarouselImageSquare = styled.img`
   height: 100%;
   object-fit: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  border-radius : 25px;
+  border : 3px solid white;
+  border-bottom-right-radius : 0px;
+  border-top-left-radius : 0px;
   &:hover {
     opacity: 0.7;
   };
   
   @media (max-width: 600px) {
+    border-radius : 10px;
+    border-bottom-right-radius : 0px;
+    border-top-left-radius : 0px;
+    border : 1px solid white;
     height: 80px;
     width: 80px;
   }
@@ -194,11 +219,20 @@ const CarouselImageRectangle = styled.img`
   height: 100%;
   object-fit: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  border-radius : 25px;
+  border-bottom-right-radius : 0px;
+  border-top-left-radius : 0px;
+  border : 3px solid white;
   &:hover {
     opacity: 0.7;
+    
   };
   
   @media (max-width: 600px) {
+    border-radius : 10px;
+    border-bottom-right-radius : 0px;
+    border-top-left-radius : 0px;
+    border : 1px solid white;
     height: 80px;
     width: 80px;
   }
@@ -208,6 +242,15 @@ const CarouselImageContainer = styled.div`
   margin-right: 10px;  /* Adjust the margin to control the gap between images */
 `;
 
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: 'rgb(25, 60, 52)', // Your RGB color
+      },
+    },
+  });
+  
 // const CarouselImage = styled.img`
 //   height: 200px;
 //   width: 200px;
@@ -217,6 +260,7 @@ const CarouselImageContainer = styled.div`
 //     width: 80px;
 //   }
 // `;
+
 
 const opts = {
     width: '100%',  // Set your desired width
@@ -246,22 +290,27 @@ const opts = {
   
 const Home = () => {
     const [login, setLogin] = useState(loginInitialValues)
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+   
     const onValueChange = (e: any) => {
         setLogin({...login, [e.target.name]: e.target.value});
     }
     const images = ['/Photo1.jpg', '/Photo2.jpg', '/Photo3.jpg', '/Photo5.jpg', '/Photo6.jpg', '/Photo7.jpg', '/Photo8.jpg']
+    const clickHandler = () => {
+        navigate('/#form-fill');
+    }
     const loginUser = async () => {
         try {
           let response = await signIn(login);
         //   navigate(`/farmer`)
-          toast.success('Submitted!')
+          toast.success("Stay tuned! We'll be in touch soon!")
           setLogin(loginInitialValues)
         } catch (error) {
           console.log(error);
         }
       }
   return (
+<>
     <HomeBox>
         <VideoBox>
             <GreenBox>
@@ -269,56 +318,66 @@ const Home = () => {
                     <i>
                         Revolutionizing agriculture by eliminating traditional guesswork from farmers' fields and replacing it with scientific precision...
                     </i>
+
+                </Box>
+                <Box>
+                    <a href='/#form-fill' className='btn-connect'>Connect with Us</a>
                 </Box>
             </GreenBox>
             <Box></Box>
             <Box></Box>
         </VideoBox>
-        <SectionOne>
+        <SectionOne id='form-fill'>
             {/* <Green> */}
                 {/* <Image src='/Drone.jpg'/> */}
+
                 <FormBox component="form" onSubmit={handleSubmit}>
-                    <Box component='h2'><i style={{color: '#E1AF3F'}}>Please Fill the Box:-</i></Box>
-                    <TextField
-                        variant="filled"
-                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
-                        type='text' 
-                        label="Name"
-                        name='name'
-                        onChange={(e) => onValueChange(e)}
-                        required
-                        value={login.name}
-                    />
-                    <TextField
-                        variant="filled"
-                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
-                        type='text' 
-                        label="Email"
-                        name='email'
-                        onChange={(e) => onValueChange(e)}
-                        value={login.email}
-                    />
-                    <TextField
-                        variant="filled"
-                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
-                        type='text' 
-                        label="Company"
-                        name='company'
-                        onChange={(e) => onValueChange(e)}
-                        required
-                        value={login.company}
-                    />
-                    <TextField
-                        variant="filled"
-                        sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
-                        type='text' 
-                        label="Designation"
-                        name='designation'
-                        onChange={(e) => onValueChange(e)}
-                        required
-                        value={login.designation}
-                    />
-                    <Button onClick={loginUser} sx={{backgroundColor: 'blue', color: 'white', zIndex: 0}}>
+                    <div className='three'>
+                    <h1><i>Get in touch with you</i></h1>
+                    </div>
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            variant="outlined"
+                            className='input-feild' 
+                            type='text' 
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            label="Name"
+                            name='name'
+                            onChange={(e) => onValueChange(e)}
+                            required
+                            value={login.name}
+                        />
+                        <TextField
+                            variant="outlined"
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            type='text' 
+                            label="Email"
+                            name='email'
+                            onChange={(e) => onValueChange(e)}
+                            value={login.email}
+                        />
+                        <TextField
+                            variant="outlined"
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            type='text' 
+                            label="Company"
+                            name='company'
+                            onChange={(e) => onValueChange(e)}
+                            required
+                            value={login.company}
+                        />
+                        <TextField
+                            variant="outlined"
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            type='text' 
+                            label="Designation"
+                            name='designation'
+                            onChange={(e) => onValueChange(e)}
+                            required
+                            value={login.designation}
+                        />
+                    </ThemeProvider>
+                    <Button onClick={loginUser} className='btn-submit'>
                         Submit
                     </Button>
                 </FormBox>
@@ -346,7 +405,9 @@ const Home = () => {
                 <CarouselImageSquare src='Photo7.jpg' alt='Image' />
             </CarouselContainer>
         </SectionTwo>
+        
     </HomeBox>
+    </>
   )
 }
 
