@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// const URI = 'https://barcodebackend.bharatrohan.in'
-const URI = 'http://localhost:3200'
+const URI = 'https://barcodebackend.bharatrohan.in'
+// const URI = 'http://localhost:3200'
 
 // export const getFarmers = async () => {
 //     try {
