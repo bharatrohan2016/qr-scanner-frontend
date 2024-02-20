@@ -32,16 +32,14 @@ const Image = styled.img`
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [logo, setLogo] = useState('BharatRohan_Logo.png');
+  const [logo, setLogo] = useState('BharatRohan_Logo-03 copy.png');
   const navigate = useNavigate()
     useEffect(() => {
         const handleScroll = () => {
         const isScrolled = window.scrollY > 0;
         if (isScrolled !== scrolled) {
             setScrolled(isScrolled);
-            setLogo('BharatRohan_Logo.png')
-        }else{
-          setLogo('BharatRohan_Logo-03 copy.png')
+           
         }
         };
 

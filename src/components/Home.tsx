@@ -23,7 +23,7 @@ const VideoBox = styled(Box)`
 
     justify-content: center;
     align-items: center;
-    background-image: url('third-copy.jpg');
+    background-image: url('four.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -116,8 +116,8 @@ const FormBox = styled(Box)`
 
 const GreenBox = styled(Box)`
    
-    // background-color: #193c2b99;
-    background-color : #63636382;
+    
+    background-color : #0000009c;
     color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
     font-size: 36px;
