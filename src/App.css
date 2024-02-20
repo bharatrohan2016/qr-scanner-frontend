@@ -39,8 +39,9 @@
 
 .btn-submit {
   border-radius: 40px !important;
-  width: 150px !important;
-  padding-top: 10px !important;
+  width: 200px !important;
+  padding: 15px 15px 12px 15px  !important;
+  font-size: 15px !important;
   /* border: 2px solid rgb(25, 60, 52) !important; */
   color: rgb(25, 60, 52) !important;
   background-color: rgb(255, 180, 2) !important;

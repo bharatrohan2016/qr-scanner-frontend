@@ -23,7 +23,7 @@ const VideoBox = styled(Box)`
 
     justify-content: center;
     align-items: center;
-    background-image: url('four.jpg');
+    background-image: url('second.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -250,17 +250,6 @@ const theme = createTheme({
       },
     },
   });
-  
-// const CarouselImage = styled.img`
-//   height: 200px;
-//   width: 200px;
-//   object-fit: cover;
-//   @media (max-width: 600px) {
-//     height: 80px;
-//     width: 80px;
-//   }
-// `;
-
 
 const opts = {
     width: '100%',  // Set your desired width
@@ -316,7 +305,7 @@ const Home = () => {
             <GreenBox>
                 <Box sx={{textShadow:  '1px 1px 2px rgba(0, 0, 0, 0.5)'}}>
                     <i>
-                        Revolutionizing agriculture by eliminating traditional guesswork from farmers' fields and replacing it with scientific precision...
+                        BharatRohan drones for hyperspectral crop monitoring, ensuring sustainable yields and offering traceable procurement for buyers
                     </i>
 
                 </Box>
@@ -333,7 +322,7 @@ const Home = () => {
 
                 <FormBox component="form" onSubmit={handleSubmit}>
                     <div className='three'>
-                    <h1><i>Get in touch with you</i></h1>
+                    <h1><i>Please share your information</i></h1>
                     </div>
                     <ThemeProvider theme={theme}>
                         <TextField
@@ -378,7 +367,7 @@ const Home = () => {
                         />
                     </ThemeProvider>
                     <Button onClick={loginUser} className='btn-submit'>
-                        Submit
+                        Trace my Food
                     </Button>
                 </FormBox>
             {/* </Green> */}
