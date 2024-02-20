@@ -16,7 +16,7 @@ const Main = styled(Box)`
 
 
 const FarmerBox = styled(Box)`
-    background-image: url('First.png');
+    background-image: url('/third-copy.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -110,6 +110,7 @@ const MainBox = styled(Box)`
 `
 
 
+
 const opts = {
     width: '100%',  // Set your desired width
     height: '250', // Set your desired height
@@ -129,12 +130,12 @@ export const hideWord = (str:any) => {
 }
 
 interface Farmer {
-    firstname: string;
-    lastname: string;
+    farmername: string;
+    fathername: string;
     state: string;
     village: string;
-    totalLandArea: number;
-    dob: string
+    unitarea: number;
+    district: string
 }
 
 const Farmers = () => {
@@ -171,7 +172,7 @@ const Farmers = () => {
       }
   return (
     <Main>
-        {/* <FarmerBox>
+        <FarmerBox>
             <FarmerSection>
                 {
                     response ? response.map((data, key) => (
@@ -181,13 +182,14 @@ const Farmers = () => {
                             </ProfBox>
                             <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
                                 <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
-                                    <Box>State: {capitalizeFirstLetter(data.state)}</Box>
-                                    <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
+                                    <Box>Name: {data.farmername}</Box>
+                                    <Box>State: {data.state}</Box>
+                                    <Box>Village: {data.village}</Box>
                                 </MainContent>
                                 <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Total Land: {data.totalLandArea}</Box>
-                                    <Box>Date of Birth: {data.dob}</Box>
+                                    <Box>Name: {data.fathername}</Box>
+                                    <Box>Total Land: {data.unitarea} km sq</Box>
+                                    <Box>District: {data.district}</Box>
                                 </MainContent>
                             </ProfileContent>
                         </FarmerProfile>
@@ -197,7 +199,7 @@ const Farmers = () => {
                     </Box>
                 }
             </FarmerSection>
-        </FarmerBox> */}
+        </FarmerBox>
     </Main>
   )
 }
