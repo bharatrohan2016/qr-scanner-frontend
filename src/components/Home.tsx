@@ -20,17 +20,13 @@ const VideoBox = styled(Box)`
     width: inherit;
     display: flex;
     min-height: 100vh;
-
     justify-content: center;
     align-items: center;
-    background-image: url('second.jpg');
+    background-image: url('banner-image.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     @media(max-width: 600px){
-        min-height: 50vh;
-       
-
         background-position: center;
         background-size: 900px 900px;
     }
@@ -322,7 +318,7 @@ const Home = () => {
 
                 <FormBox component="form" onSubmit={handleSubmit}>
                     <div className='three'>
-                    <h1><i>Please share your information</i></h1>
+                    <p><i>Please share your information</i></p>
                     </div>
                     <ThemeProvider theme={theme}>
                         <TextField
