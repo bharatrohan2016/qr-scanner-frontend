@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Box, Button, TextField, Theme, makeStyles } from '@mui/material';
+import React, { useEffect, useState } from 'react'
+import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Theme, makeStyles } from '@mui/material';
 import styled from '@emotion/styled';
 import YouTube from 'react-youtube';
 import { Carousel } from 'react-responsive-carousel';
@@ -9,7 +9,25 @@ import { signIn } from '../service/api';
 import { toast } from 'react-toastify';
 import Carousels from './Carousels';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-                      
+ 
+const batchNumberList = [
+    {
+        crop : 'Chili',
+        number : '0593',
+    },
+    {
+        crop : 'Turmeric',
+        number : '1706',
+    },
+    {
+        crop : 'Coriander',
+        number : 'BR 1192',
+    },
+    {
+        crop : 'Cumin',
+        number : 'BR 0606',
+    }
+]
 const HomeBox = styled(Box)`
     height: 100%;
     width: 100%;
@@ -22,7 +40,7 @@ const VideoBox = styled(Box)`
     min-height: 100vh;
     justify-content: center;
     align-items: center;
-    background-image: url('banner-image.webp');
+    background-image: url('fifth.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -41,7 +59,7 @@ const Video = styled(Box)`
 `;
 
 const SectionOne = styled(Box)`
-    height: 70vh;
+   
     width: inherit;
     display: flex;
     justify-content: space-around;
@@ -49,7 +67,7 @@ const SectionOne = styled(Box)`
     margin-top : 2vh;
     margin-bottom : 2vh;
     @media (max-width: 600px) {
-        height: 100vh;
+       
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -73,7 +91,7 @@ const Image = styled.img`
 
 const FormBox = styled(Box)`
     width: 50vw;
-    height: 65vh;
+    // height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -88,7 +106,7 @@ const FormBox = styled(Box)`
     padding-bottom : 8px;
     @media (max-width: 600px) {
         width: 90%;
-        height: 60vh;
+       
         border-top-right-radius : 0px;
         border-bottom-left-radius : 0px;
         padding-bottom : 2px;
@@ -262,6 +280,15 @@ const opts = {
     email: '',
     company: '',
     designation: '',
+    batchNumber : ''
+  };
+
+  const errorInitialValues = {
+    name: '',
+    email: '',
+    company: '',
+    designation: '',
+    batchNumber : ''
   };
 
   const handleSubmit = (event: any) => {
@@ -274,22 +301,33 @@ const opts = {
   };
   
 const Home = () => {
+    const [errors, setErrors] = useState(errorInitialValues);
     const [login, setLogin] = useState(loginInitialValues)
     const navigate = useNavigate();
    
     const onValueChange = (e: any) => {
         setLogin({...login, [e.target.name]: e.target.value});
+     
     }
     const images = ['/Photo1.jpg', '/Photo2.jpg', '/Photo3.jpg', '/Photo5.jpg', '/Photo6.jpg', '/Photo7.jpg', '/Photo8.jpg']
     const clickHandler = () => {
         navigate('/#form-fill');
     }
+
+   
+
     const loginUser = async () => {
         try {
-          let response = await signIn(login);
-        //   navigate(`/farmer`)
-          toast.success("Stay tuned! We'll be in touch soon!")
-          setLogin(loginInitialValues)
+            if(login.batchNumber!=""){
+                let response = await signIn(login);
+                toast.success("Stay tuned! We'll be in touch soon!")
+                setLogin(loginInitialValues);
+
+                //make user to navigate to another page.
+                navigate(`/farmer/${login.batchNumber}`);
+            }else{
+                toast.error('BatchNumber is required.')
+            }
         } catch (error) {
           console.log(error);
         }
@@ -325,16 +363,16 @@ const Home = () => {
                             variant="outlined"
                             className='input-feild' 
                             type='text' 
-                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0, }} 
                             label="Name"
                             name='name'
                             onChange={(e) => onValueChange(e)}
-                            required
+                            
                             value={login.name}
                         />
                         <TextField
                             variant="outlined"
-                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0, mt : 2  }} 
                             type='text' 
                             label="Email"
                             name='email'
@@ -343,26 +381,48 @@ const Home = () => {
                         />
                         <TextField
                             variant="outlined"
-                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0,  mt : 2  }} 
                             type='text' 
                             label="Company"
                             name='company'
                             onChange={(e) => onValueChange(e)}
-                            required
+                            
                             value={login.company}
                         />
                         <TextField
                             variant="outlined"
-                            sx={{ width: '80%', fontSize: '20px', zIndex: 0 }} 
+                            sx={{ width: '80%', fontSize: '20px', zIndex: 0, mt : 2  }} 
                             type='text' 
                             label="Designation"
                             name='designation'
                             onChange={(e) => onValueChange(e)}
-                            required
+                            
                             value={login.designation}
                         />
+                      
+                      <FormControl variant="outlined" sx={{ width: '80%', zIndex: 0, mt : 2  }}>
+                        {/* Add InputLabel for the label */}
+                        <InputLabel id="select-label">Batch Number *</InputLabel>
+                        {/* Add the Select component below */}
+                        <Select
+                            labelId="select-label"
+                            name='batchNumber'
+                            label="Batch Number *"
+                            sx={{ justifyContent: 'flex-start' }}
+                            onChange={(e) => onValueChange(e)}
+                            value={login.batchNumber}
+                        >
+                          
+                            {
+                                batchNumberList.map((item, index) => <MenuItem key={index} value={item.number}>{item.crop}({item.number})</MenuItem>)
+                            }
+                        </Select>
+                        
+                       
+                        </FormControl>
+                       
                     </ThemeProvider>
-                    <Button onClick={loginUser} className='btn-submit'>
+                    <Button onClick={loginUser} className='btn-submit' sx={{ mt : 2, mb:2 }}>
                         Trace my Food
                     </Button>
                 </FormBox>

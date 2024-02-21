@@ -30,7 +30,6 @@ const FarmerBox = styled(Box)`
 
 const FarmerSection = styled(Box)`
     width: 80%;
-    
     @media (max-width: 600px) {
         min-height: 15vh
     }
