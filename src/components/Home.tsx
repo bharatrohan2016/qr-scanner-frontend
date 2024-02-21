@@ -11,14 +11,14 @@ import Carousels from './Carousels';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
  
 const batchNumberList = [
-    {
-        crop : 'Chili',
-        number : '0593',
-    },
-    {
-        crop : 'Turmeric',
-        number : '1706',
-    },
+    // {
+    //     crop : 'Chili',
+    //     number : '0593',
+    // },
+    // {
+    //     crop : 'Turmeric',
+    //     number : '1706',
+    // },
     {
         crop : 'Coriander',
         number : 'BR 1192',
@@ -280,15 +280,7 @@ const opts = {
     email: '',
     company: '',
     designation: '',
-    batchNumber : ''
-  };
-
-  const errorInitialValues = {
-    name: '',
-    email: '',
-    company: '',
-    designation: '',
-    batchNumber : ''
+    barcode: ''
   };
 
   const handleSubmit = (event: any) => {
@@ -301,7 +293,7 @@ const opts = {
   };
   
 const Home = () => {
-    const [errors, setErrors] = useState(errorInitialValues);
+   
     const [login, setLogin] = useState(loginInitialValues)
     const navigate = useNavigate();
    
@@ -318,16 +310,10 @@ const Home = () => {
 
     const loginUser = async () => {
         try {
-            if(login.batchNumber!=""){
-                let response = await signIn(login);
-                toast.success("Stay tuned! We'll be in touch soon!")
-                setLogin(loginInitialValues);
-
-                //make user to navigate to another page.
-                navigate(`/farmer/${login.batchNumber}`);
-            }else{
-                toast.error('BatchNumber is required.')
-            }
+          let response = await signIn(login);
+          navigate(`/farmer/${login.barcode}`)
+          toast.success("Stay tuned! We'll be in touch soon!")
+          setLogin(loginInitialValues)
         } catch (error) {
           console.log(error);
         }
@@ -406,19 +392,17 @@ const Home = () => {
                         {/* Add the Select component below */}
                         <Select
                             labelId="select-label"
-                            name='batchNumber'
+                            name='barcode'
                             label="Batch Number *"
                             sx={{ justifyContent: 'flex-start' }}
                             onChange={(e) => onValueChange(e)}
-                            value={login.batchNumber}
+                            value={login.barcode}
                         >
                           
                             {
                                 batchNumberList.map((item, index) => <MenuItem key={index} value={item.number}>{item.crop}({item.number})</MenuItem>)
                             }
                         </Select>
-                        
-                       
                         </FormControl>
                        
                     </ThemeProvider>

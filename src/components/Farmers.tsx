@@ -3,7 +3,8 @@ import { Backdrop, Box, CircularProgress, InputAdornment, TextField } from '@mui
 import YouTube from 'react-youtube'
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react'
-import { getFarmers } from '../service/api';
+import { getFarmer } from '../service/api';
+import { useParams } from 'react-router-dom';
 
 const Main = styled(Box)`
     display: flex;
@@ -15,7 +16,7 @@ const Main = styled(Box)`
 
 
 const FarmerBox = styled(Box)`
-    background-image: url('First.png');
+    background-image: url('/third-copy.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -108,6 +109,7 @@ const MainBox = styled(Box)`
 `
 
 
+
 const opts = {
     width: '100%',  // Set your desired width
     height: '250', // Set your desired height
@@ -127,17 +129,18 @@ export const hideWord = (str:any) => {
 }
 
 interface Farmer {
-    firstname: string;
-    lastname: string;
+    farmername: string;
+    fathername: string;
     state: string;
     village: string;
-    totalLandArea: number;
-    dob: string
+    unitarea: number;
+    district: string
 }
 
 const Farmers = () => {
     const [response, setResponse] = useState<Farmer[] | undefined>();
     const [open, setOpen] = React.useState(false);
+    const { params } = useParams()
     const handleClose = () => {
         setOpen(false);
     };
@@ -147,8 +150,10 @@ const Farmers = () => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const result = await getFarmers();
+            const result = await getFarmer(params);
             setResponse(result?.data);
+            console.log(result);
+            
           } catch (error) {
             console.error("Error fetching data:", error);
           }
@@ -176,13 +181,14 @@ const Farmers = () => {
                             </ProfBox>
                             <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
                                 <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Name: {hideWord(data.firstname) + ' ' + hideWord(data.lastname)}</Box>
-                                    <Box>State: {capitalizeFirstLetter(data.state)}</Box>
-                                    <Box>Village: {capitalizeFirstLetter(data.village)}</Box>
+                                    <Box>Name: {data.farmername}</Box>
+                                    <Box>State: {data.state}</Box>
+                                    <Box>Village: {data.village}</Box>
                                 </MainContent>
                                 <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Total Land: {data.totalLandArea}</Box>
-                                    <Box>Date of Birth: {data.dob}</Box>
+                                    <Box>Name: {data.fathername}</Box>
+                                    <Box>Total Land: {data.unitarea} km sq</Box>
+                                    <Box>District: {data.district}</Box>
                                 </MainContent>
                             </ProfileContent>
                         </FarmerProfile>
