@@ -312,7 +312,6 @@ const Home = () => {
         try {
           let response = await signIn(login);
           navigate(`/farmer/${login.barcode}`)
-          toast.success("Stay tuned! We'll be in touch soon!")
           setLogin(loginInitialValues)
         } catch (error) {
           console.log(error);
@@ -336,7 +335,7 @@ const Home = () => {
             <Box></Box>
             <Box></Box>
         </VideoBox>
-        <SectionOne id='form-fill'>
+        <SectionOne className='anchor' id='form-fill'>
             {/* <Green> */}
                 {/* <Image src='/Drone.jpg'/> */}
 
