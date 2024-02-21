@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Backdrop, Box, CircularProgress, InputAdornment, TextField } from '@mui/material'
+import { Backdrop, Box, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@mui/material'
 import YouTube from 'react-youtube'
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react'
@@ -12,14 +12,11 @@ const Main = styled(Box)`
     align-items: center;
     flex-direction: column;
     width: 100%;
+    background-color : #ffb4021f;
 `
 
 
 const FarmerBox = styled(Box)`
-    background-image: url('/third-copy.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     width: 100%;
     padding-top: 12vh;
     display: flex;
@@ -37,13 +34,14 @@ const FarmerSection = styled(Box)`
 `
 
 const FarmerProfile = styled(Box)`
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: ghost-white;
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
     height: 135px;
     margin-top: 3%;
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
     &:hover {
         opacity: 0.7;
     }
@@ -106,7 +104,8 @@ const MainBox = styled(Box)`
     background-position: start;
     background-attachment: fixed;
     width: inherit;
-`
+`;
+
 
 
 
@@ -170,37 +169,63 @@ const Farmers = () => {
         )
       }
   return (
-    <Main>
+    <Main >
         <FarmerBox>
-            <FarmerSection>
+            <FarmerSection >
+            <div style={{display : 'flex', justifyContent : 'space-evenly', flexWrap : 'wrap'}}>
                 {
-                    response ? response.map((data, key) => (
-                        <FarmerProfile key={key} >
-                            <ProfBox sx={{height: '130px', width: '130px'}}>
-                                <Images src='/logo192.png'/>
-                            </ProfBox>
-                            <ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
-                                <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Name: {data.farmername}</Box>
-                                    <Box>State: {data.state}</Box>
-                                    <Box>Village: {data.village}</Box>
-                                </MainContent>
-                                <MainContent sx={{height: '130px', width: '20vw'}}>
-                                    <Box>Name: {data.fathername}</Box>
-                                    <Box>Total Land: {data.unitarea} km sq</Box>
-                                    <Box>District: {data.district}</Box>
-                                </MainContent>
-                            </ProfileContent>
-                        </FarmerProfile>
-                    )) : 
+                    response ? response.map((data, key) => 
+                    
+                    <Card className='farmers-card'>
+                        <CardMedia
+                            sx={{ height: 200 }}
+                            image="/farmer-copy.jpg"
+                            title="green iguana"
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                            {data.farmername}
+                            </Typography>
+                            {/* <Typography variant="body2" color="text.secondary"> */}
+                            <p>State: {data.state}</p>
+                            <p>Village: {data.village}</p>
+                            <p>Total Land: {data.unitarea} km sq</p>
+                            <p>District: {data.district}</p>
+                            {/* </Typography> */}
+                        </CardContent>
+                        
+                    </Card>
+                    
+                    ) : 
                     <Box sx={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <CircularProgress color="inherit" />
                     </Box>
                 }
+                </div>
             </FarmerSection>
         </FarmerBox>
     </Main>
   )
 }
 
-export default Farmers
+export default Farmers;
+
+{/* <FarmerProfile key={key} >
+<ProfBox sx={{height: '130px', width: '130px'}}>
+    <Images src='/farmer-copy.jpg'/>
+</ProfBox>
+<ProfileContent sx={{height: '130px', width: '100%', display: 'flex', justifyContent: 'space-around'}}>
+    <MainContent sx={{height: '130px', width: '20vw'}}>
+        <Box>Name: {data.farmername}</Box>
+        <Box>State: {data.state}</Box>
+        <Box>Village: {data.village}</Box>
+    </MainContent>
+    <MainContent sx={{height: '130px', width: '20vw'}}>
+       
+        <Box>Total Land: {data.unitarea} km sq</Box>
+        <Box>District: {data.district}</Box>
+    </MainContent>
+</ProfileContent>
+</FarmerProfile> */}
+
+{/* */}

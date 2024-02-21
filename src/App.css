@@ -123,7 +123,7 @@
     
 }
 .anchor{
-  scroll-margin-top: 12.5vh !important;
+  scroll-margin-top: 13.5vh !important;
 }
 .btn-connect:hover {
   background-color: rgb(25, 60, 52);
@@ -139,4 +139,14 @@
     transition: 0.5s ease-in-out;
     /* align-items: center; */
 }
+}
+
+.farmers-card{
+  width: 345px; 
+  margin-bottom : 5vh;
+box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px !important;
+  border-left: 3px solid rgb(25, 60, 52);
+  border-bottom: 3px solid rgb(25, 60, 52);
+  border-radius: 0px 60px 0px 0px !important;
+ 
 }

@@ -9,7 +9,8 @@ import { signIn } from '../service/api';
 import { toast } from 'react-toastify';
 import Carousels from './Carousels';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
- 
+import { useFormik } from "formik";
+import validate from './validate';
 const batchNumberList = [
     // {
     //     crop : 'Chili',
@@ -64,8 +65,9 @@ const SectionOne = styled(Box)`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top : 2vh;
-    margin-bottom : 2vh;
+    background-color : #ffb4021f;
+    padding-top : 2vh;
+    padding-bottom : 2vh;
     @media (max-width: 600px) {
        
         display: flex;
@@ -297,26 +299,21 @@ const Home = () => {
     const [login, setLogin] = useState(loginInitialValues)
     const navigate = useNavigate();
    
-    const onValueChange = (e: any) => {
-        setLogin({...login, [e.target.name]: e.target.value});
-     
-    }
-    const images = ['/Photo1.jpg', '/Photo2.jpg', '/Photo3.jpg', '/Photo5.jpg', '/Photo6.jpg', '/Photo7.jpg', '/Photo8.jpg']
-    const clickHandler = () => {
-        navigate('/#form-fill');
-    }
-
-   
-
-    const loginUser = async () => {
-        try {
-          let response = await signIn(login);
-          navigate(`/farmer/${login.barcode}`)
-          setLogin(loginInitialValues)
-        } catch (error) {
-          console.log(error);
+    const formik = useFormik({
+        initialValues : loginInitialValues, //type - obj
+        validate : validate,
+        onSubmit : async (values) => {
+            console.log(values);
+            try {
+                let response = await signIn(values);
+                navigate(`/farmer/${values.barcode}`)
+                formik.resetForm({});
+            } catch (error) {
+                console.log(error);
+            }
         }
-      }
+    })
+  
   return (
 <>
     <HomeBox>
@@ -339,75 +336,104 @@ const Home = () => {
             {/* <Green> */}
                 {/* <Image src='/Drone.jpg'/> */}
 
-                <FormBox component="form" onSubmit={handleSubmit}>
+                <FormBox >
                     <div className='three'>
                     <p><i>Please share your information</i></p>
                     </div>
-                    <ThemeProvider theme={theme}>
-                        <TextField
-                            variant="outlined"
-                            className='input-feild' 
-                            type='text' 
-                            sx={{ width: '80%', fontSize: '20px', zIndex: 0, }} 
-                            label="Name"
-                            name='name'
-                            onChange={(e) => onValueChange(e)}
-                            
-                            value={login.name}
-                        />
-                        <TextField
-                            variant="outlined"
-                            sx={{ width: '80%', fontSize: '20px', zIndex: 0, mt : 2  }} 
-                            type='text' 
-                            label="Email"
-                            name='email'
-                            onChange={(e) => onValueChange(e)}
-                            value={login.email}
-                        />
-                        <TextField
-                            variant="outlined"
-                            sx={{ width: '80%', fontSize: '20px', zIndex: 0,  mt : 2  }} 
-                            type='text' 
-                            label="Company"
-                            name='company'
-                            onChange={(e) => onValueChange(e)}
-                            
-                            value={login.company}
-                        />
-                        <TextField
-                            variant="outlined"
-                            sx={{ width: '80%', fontSize: '20px', zIndex: 0, mt : 2  }} 
-                            type='text' 
-                            label="Designation"
-                            name='designation'
-                            onChange={(e) => onValueChange(e)}
-                            
-                            value={login.designation}
-                        />
-                      
-                      <FormControl variant="outlined" sx={{ width: '80%', zIndex: 0, mt : 2  }}>
-                        {/* Add InputLabel for the label */}
-                        <InputLabel id="select-label">Batch Number *</InputLabel>
-                        {/* Add the Select component below */}
-                        <Select
-                            labelId="select-label"
-                            name='barcode'
-                            label="Batch Number *"
-                            sx={{ justifyContent: 'flex-start' }}
-                            onChange={(e) => onValueChange(e)}
-                            value={login.barcode}
-                        >
-                          
+                    <form onSubmit={formik.handleSubmit}>
+                        <ThemeProvider theme={theme}>
+                            <FormControl sx={{ width: '80%', zIndex: 0, mt : 2  }}>
+                            <TextField
+                                variant="outlined"
+                                className='input-feild' 
+                                type='text' 
+                                
+                                label="Name"
+                                name='name'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.name}
+                                error = {(formik.touched.name === true)  && formik.errors.name!=undefined}
+                            />
                             {
-                                batchNumberList.map((item, index) => <MenuItem key={index} value={item.number}>{item.crop}({item.number})</MenuItem>)
+                                (formik.touched.name === true ) && formik.errors.name!=undefined ? <FormHelperText sx={{ml : 0}} error>{formik.errors.name}</FormHelperText> : ''
                             }
-                        </Select>
-                        </FormControl>
-                       
-                    </ThemeProvider>
-                    <Button onClick={loginUser} className='btn-submit' sx={{ mt : 2, mb:2 }}>
-                        Trace my Food
-                    </Button>
+                            </FormControl>
+                            <FormControl sx={{ width: '80%', zIndex: 0, mt : 2  }}>
+                            <TextField
+                                variant="outlined"
+                                
+                                type='text' 
+                                label="Email"
+                                name='email'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
+                                error = {(formik.touched.email === true) && formik.errors.email!=undefined}
+                            />
+
+                            {
+                                (formik.touched.email === true ) && formik.errors.email!=undefined ? <FormHelperText sx={{ml : 0}} error>{formik.errors.email}</FormHelperText> : ''
+                            }
+                            </FormControl>
+                            <FormControl  sx={{ width: '80%', fontSize: '20px', zIndex: 0,  mt : 2  }} >
+                            <TextField
+                                variant="outlined"
+                               
+                                type='text' 
+                                label="Company"
+                                name='company'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.company}
+                               
+                            />
+                            </FormControl>
+                            <FormControl sx={{ width: '80%', fontSize: '20px', zIndex: 0, mt : 2  }} >
+                            <TextField
+                                variant="outlined"
+                                
+                                type='text' 
+                                label="Designation"
+                                name='designation'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.designation}
+                                
+                            />
+                            </FormControl>
+                        
+                            <FormControl variant="outlined" sx={{ width: '80%', zIndex: 0, mt : 2  }}>
+                                {/* Add InputLabel for the label */}
+                                <InputLabel id="select-label">Batch Number *</InputLabel>
+                                {/* Add the Select component below */}
+                                <Select
+                                    labelId="select-label"
+                                    name='barcode'
+                                    label="Batch Number *"
+                                    sx={{ justifyContent: 'flex-start' }}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.barcode}
+                                    error = {(formik.touched.barcode === true) && formik.errors.barcode!=undefined}
+                                >
+                                
+                                    {
+                                        batchNumberList.map((item, index) => <MenuItem key={index} value={item.number}>{item.crop}({item.number})</MenuItem>)
+                                    }
+                                </Select>
+                                {
+                                    (formik.touched.barcode === true ) && formik.errors.barcode!=undefined ? <FormHelperText sx={{ml : 0}} error>{formik.errors.barcode}</FormHelperText> : ''
+                                }
+                                
+                            </FormControl>
+                        
+                        </ThemeProvider>
+                        <Button type='submit' className='btn-submit' sx={{ mt : 2, mb:2 }}>
+                            Trace my Food
+                        </Button>
+                    </form>
+                    
                 </FormBox>
             {/* </Green> */}
             <Video>
