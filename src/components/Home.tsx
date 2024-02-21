@@ -16,10 +16,10 @@ const batchNumberList = [
     //     crop : 'Chili',
     //     number : '0593',
     // },
-    // {
-    //     crop : 'Turmeric',
-    //     number : '1706',
-    // },
+    {
+        crop : 'Turmeric',
+        number : 'BR 1706',
+    },
     {
         crop : 'Coriander',
         number : 'BR 1192',

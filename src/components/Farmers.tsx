@@ -186,12 +186,12 @@ const Farmers = () => {
                             <Typography gutterBottom variant="h5" component="div">
                             {data.farmername}
                             </Typography>
-                            {/* <Typography variant="body2" color="text.secondary"> */}
+                           
                             <p>State: {data.state}</p>
                             <p>Village: {data.village}</p>
-                            <p>Total Land: {data.unitarea} km sq</p>
+                            <p>Total Land: {data.unitarea} acres</p>
                             <p>District: {data.district}</p>
-                            {/* </Typography> */}
+                           
                         </CardContent>
                         
                     </Card>
