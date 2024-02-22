@@ -12,10 +12,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from "formik";
 import validate from './validate';
 const batchNumberList = [
-    // {
-    //     crop : 'Chili',
-    //     number : '0593',
-    // },
+    {
+        crop : 'Chili',
+        number : 'BR 0593',
+    },
     {
         crop : 'Turmeric',
         number : 'BR 1706',
